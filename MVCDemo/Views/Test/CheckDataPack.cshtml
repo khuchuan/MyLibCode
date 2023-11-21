@@ -1,0 +1,27 @@
+﻿
+<div class="form-group row" style="padding-top:30px;">
+    <div class="col-sm-2" style="padding-left:40px">Gói cước</div>
+    <div class="col-lg-4 col-md-4 col-sm-12">
+        <select id="packselect" class="form-control">
+            @foreach (var item in ViewBag.model)
+            {
+                <option value="@item.Id">@item.Name</option>
+            }
+        </select>
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-sm-2" style="padding-left:40px">Mã xác thực</div>
+    <div class="col-lg-4 col-md-4 col-sm-12">
+        <input class="form-control" id="inputOT" placeholder="Nhập OTP" required aria-required="true">
+    </div>
+    <!-- <div><button id="btnGetOTP" class="btn" style="background-color: darkcyan; color:white;">Lấy OTP</button></div> -->
+</div>
+
+<div class="form-group row">
+    <div class="col-sm-2" style="padding-left:40px"></div>
+    <div class="col-lg-4 col-md-4 col-sm-12">
+        <button type="submit" class="btn btn-primary">Thanh toán</button>
+    </div>
+</div>

@@ -1,0 +1,88 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form id="formdata" name="formdata" onsubmit="return false;">
+    <div class="form-group row" style="padding-top:30px;">
+        <div class="col-sm-2" style="padding-left:40px">Khách hàng</div>
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <select id="partnerselect" name="partnerselect" class="form-control">
+                @foreach (var item in ViewBag.model)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2" style="padding-left:40px">Sản phẩm</div>
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <select id="productselect" name="productselect" class="form-control">
+                @foreach (var item in ViewBag.listPack)
+                {
+                    <option value="@item.Code">@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2" style="padding-left:40px">Số điện thoại</div>
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <input class="form-control" id="inputPhoneNumber" name="inputPhoneNumber" placeholder="PhoneNumber">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2" style="padding-left:40px"></div>
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <button class="btn btn-primary" id="btnGetPack" name="btnGetPack">Lấy gói</button>
+        </div>
+    </div>
+
+    <!--Load form CheckDataPack se vao day-->
+    <div class="form-group row" id="loadCheckData"></div>
+
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnGetPack").click(function () {
+            // Check cac du lieu trong form hop le ?
+            // No: Show message error
+            // Yes:Load CheckDataPack.html
+
+
+
+            $('#formdata').validate({
+                onkeyup: function (element) { $(element).valid(); },
+                onclick: false,
+                focusCleanup: true,
+                focusInvalid: true,
+                rules: {
+                    inputPhoneNumber: "required",
+                    partnerselect: "required",
+                    productselect: "required"
+                },
+
+                messages: {
+                    inputPhoneNumber: "Please enter customer mobile",
+                    partnerselect: "Please select Partner",
+                    productselect: "Please select a valid product"
+                },
+
+                invalidHandler: function (e, r) {
+                    //$("#m_form_1_msg").removeClass("m--hide").show(), mUtil.scrollTop();
+                },
+                submitHandler: function (e) {
+                    $("#loadCheckData").load(`${Utils.UrlRoot}Test/CheckDataPack`, { PartnerId: $('#partnerselect  option:selected').val(), ProductCode: $('#productselect  option:selected').val(), CustomerMobile: $('#inputPhoneNumber').val() });
+                }
+            });
+
+        });
+
+    })
+
+
+</script>
