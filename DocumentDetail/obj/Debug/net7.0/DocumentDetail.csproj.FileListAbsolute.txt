@@ -1,7 +1,6 @@
 D:\Learning\MyLibCode\DocumentDetail\bin\Debug\net7.0\DocumentDetail.deps.json
 D:\Learning\MyLibCode\DocumentDetail\bin\Debug\net7.0\DocumentDetail.dll
 D:\Learning\MyLibCode\DocumentDetail\bin\Debug\net7.0\DocumentDetail.pdb
-D:\Learning\MyLibCode\DocumentDetail\obj\Debug\net7.0\DocumentDetail.csproj.AssemblyReference.cache
 D:\Learning\MyLibCode\DocumentDetail\obj\Debug\net7.0\DocumentDetail.GeneratedMSBuildEditorConfig.editorconfig
 D:\Learning\MyLibCode\DocumentDetail\obj\Debug\net7.0\DocumentDetail.AssemblyInfoInputs.cache
 D:\Learning\MyLibCode\DocumentDetail\obj\Debug\net7.0\DocumentDetail.AssemblyInfo.cs
@@ -10,3 +9,4 @@ D:\Learning\MyLibCode\DocumentDetail\obj\Debug\net7.0\DocumentDetail.dll
 D:\Learning\MyLibCode\DocumentDetail\obj\Debug\net7.0\refint\DocumentDetail.dll
 D:\Learning\MyLibCode\DocumentDetail\obj\Debug\net7.0\DocumentDetail.pdb
 D:\Learning\MyLibCode\DocumentDetail\obj\Debug\net7.0\ref\DocumentDetail.dll
+D:\Learning\MyLibCode\DocumentDetail\obj\Debug\net7.0\DocumentDetail.sourcelink.json

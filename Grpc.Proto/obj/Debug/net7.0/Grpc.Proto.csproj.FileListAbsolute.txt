@@ -1,0 +1,13 @@
+D:\Learning\MyLibCode\Grpc.Proto\obj\Debug\net7.0\Grpc.Proto.csproj.AssemblyReference.cache
+D:\Learning\MyLibCode\Grpc.Proto\obj\Debug\net7.0\Grpc.Proto.GeneratedMSBuildEditorConfig.editorconfig
+D:\Learning\MyLibCode\Grpc.Proto\obj\Debug\net7.0\Grpc.Proto.AssemblyInfoInputs.cache
+D:\Learning\MyLibCode\Grpc.Proto\obj\Debug\net7.0\Grpc.Proto.AssemblyInfo.cs
+D:\Learning\MyLibCode\Grpc.Proto\obj\Debug\net7.0\Grpc.Proto.csproj.CoreCompileInputs.cache
+D:\Learning\MyLibCode\Grpc.Proto\obj\Debug\net7.0\Grpc.Proto.sourcelink.json
+D:\Learning\MyLibCode\Grpc.Proto\bin\Debug\net7.0\Grpc.Proto.deps.json
+D:\Learning\MyLibCode\Grpc.Proto\bin\Debug\net7.0\Grpc.Proto.dll
+D:\Learning\MyLibCode\Grpc.Proto\bin\Debug\net7.0\Grpc.Proto.pdb
+D:\Learning\MyLibCode\Grpc.Proto\obj\Debug\net7.0\Grpc.Proto.dll
+D:\Learning\MyLibCode\Grpc.Proto\obj\Debug\net7.0\refint\Grpc.Proto.dll
+D:\Learning\MyLibCode\Grpc.Proto\obj\Debug\net7.0\Grpc.Proto.pdb
+D:\Learning\MyLibCode\Grpc.Proto\obj\Debug\net7.0\ref\Grpc.Proto.dll

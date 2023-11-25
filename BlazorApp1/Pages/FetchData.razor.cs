@@ -12,9 +12,9 @@ namespace BlazorApp1.Pages
 
         protected override async Task OnInitializedAsync()
         {
-#if DEBUG
-            await Task.Delay(10000);
-#endif
+//#if DEBUG
+//            await Task.Delay(10000);
+//#endif
             forecasts = await ForecastService.GetForecastAsync(DateOnly.FromDateTime(DateTime.Now));
         }
     }

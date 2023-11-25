@@ -1,0 +1,178 @@
+syntax = "proto3";
+
+option csharp_namespace = "ReportService";
+// import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+package Report;
+
+service Transaction {
+  rpc GetTransactionHistoryReport (GetTransactionHistoryRequest) returns (stream GetTransactionHistoryResult);
+  rpc GetTransactionHistoryPaging (GetTransactionHistoryRequest) returns (GetTransactionHistoryResult);
+  rpc GetTransactionPendingHistoryPaging (GetTransactionHistoryRequest) returns (GetTransactionHistoryResult);
+  rpc GetTransactionHistoryById (GetTransactionHistoryByIdRequest) returns (GetTransactionHistoryByIdResult);  
+  rpc GetCountTransactionPending (GetCountTransactionPendingRequest) returns (GetCountTransactionPendingResult);
+  rpc GetPaybillResponFromProvider (GetDataFromProviderRequest) returns (GetDataFromProviderResult);
+  rpc GetCustomer (GetCustomerRequest) returns (GetCustomerResult);
+}
+message GetTransactionHistoryRequest {
+  google.protobuf.Timestamp StartDate = 1;
+  google.protobuf.Timestamp EndDate = 2;
+  google.protobuf.StringValue Service = 3;
+  google.protobuf.StringValue CustomerCode = 4;
+  google.protobuf.Int32Value PayBillStatus = 5;
+  google.protobuf.StringValue TransactionId = 6;
+  google.protobuf.StringValue BillingCode = 7;
+  google.protobuf.StringValue Partner = 12;
+  google.protobuf.Int32Value SendMail = 13;
+  google.protobuf.StringValue SortExpr = 8;
+  google.protobuf.StringValue SortDir = 9;
+  int32 PageIndex = 10;
+  int32 PageSize = 11;
+}
+message GetTransactionHistoryResult {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  int32 TotalCount = 3;
+  repeated TransactionHistoryItem Data = 4;
+}
+message GetCountTransactionPendingRequest {
+	
+}
+message GetCountTransactionPendingResult {
+	google.protobuf.StringValue ResultCode = 1;
+	google.protobuf.StringValue ResultMessage = 2;
+	int32 CountData = 3;
+}
+message TransactionHistoryItem {
+	google.protobuf.StringValue Id = 1;
+	google.protobuf.StringValue TrackingId = 2;
+	google.protobuf.Timestamp CreatedTime = 3;
+	google.protobuf.StringValue Username = 4;
+	double Amount = 5;
+	double ActualAmount = 6;
+	google.protobuf.StringValue BillingCode = 7;
+	google.protobuf.StringValue Partner = 8;
+	google.protobuf.StringValue ServiceId = 9;
+	google.protobuf.StringValue ProductCode = 10;
+	google.protobuf.Int32Value Status = 11;
+	google.protobuf.StringValue ResultCode = 12;
+	int32 TotalRows = 13;
+	google.protobuf.StringValue PartnerTransactionId = 14;
+	google.protobuf.Timestamp ResponseTime = 15;
+	google.protobuf.Int32Value SendMail = 16;
+	google.protobuf.StringValue CustomerId = 17;
+	google.protobuf.StringValue PackCode = 18;
+}
+
+message TransactionItem {
+	google.protobuf.StringValue Id = 1;
+	google.protobuf.StringValue TrackingId = 2;
+	google.protobuf.Timestamp CreateTime = 3;
+	google.protobuf.StringValue ClientIp = 4;
+	google.protobuf.StringValue BillingCode = 5;
+	google.protobuf.StringValue ProductId = 6;
+	google.protobuf.StringValue PackId = 7;
+	double Amount = 8;
+	double ActualAmount = 9;
+	google.protobuf.StringValue Username = 10;
+	int32 DiscountType = 11;
+	google.protobuf.StringValue ServiceId = 12;
+	google.protobuf.StringValue CustomerId = 13;
+	google.protobuf.StringValue Description = 14;
+	google.protobuf.StringValue Partner = 15;
+	google.protobuf.Int32Value ResultStatus = 16;
+	google.protobuf.StringValue ResultCode = 17;
+	google.protobuf.Timestamp PayTime = 18;
+	google.protobuf.Timestamp ResponseTime = 19;
+	google.protobuf.StringValue PartnerTransactionId = 20;
+	google.protobuf.Timestamp PartnerCreateTime = 21;
+	google.protobuf.StringValue FundingSource = 22;
+	google.protobuf.StringValue Extend1 = 23;
+	google.protobuf.StringValue Extend2 = 24;
+	google.protobuf.Int32Value Quantity = 25;
+	double DiscountValue = 26;
+	google.protobuf.Int32Value SendMail = 27;
+}
+
+message GetTransactionHistoryByIdRequest {
+	google.protobuf.StringValue Id = 1;
+}
+
+message GetTransactionHistoryByIdResult {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  TransactionItem Data = 3;
+  PaybillResponseItem DataPayBill = 4;
+  repeated TransactionRefundOrderItem RefundOrder = 5;
+}
+
+message TransactionRefundOrderItem{
+   google.protobuf.StringValue Id = 1;
+   google.protobuf.StringValue TransactionId = 2;
+   google.protobuf.StringValue TrackingId = 3;
+   google.protobuf.Timestamp CreateTime = 4;
+   google.protobuf.StringValue BillingCode = 5;
+   google.protobuf.DoubleValue ActualAmount = 6;
+   google.protobuf.Int32Value ResultStatus = 7;
+   google.protobuf.Timestamp PartnerCreateTime = 8;
+   google.protobuf.Timestamp ResponseTime = 9;
+   google.protobuf.StringValue ResultCode = 10;
+   google.protobuf.StringValue UserName = 11;
+   google.protobuf.StringValue PartnerRefundId = 12;
+}
+message PaybillResponseItem{
+   google.protobuf.StringValue Code = 1;
+   google.protobuf.StringValue Message = 2;
+   google.protobuf.StringValue TransactionId = 3;
+   google.protobuf.StringValue ServiceId = 4;
+   google.protobuf.StringValue ProductCode = 5;
+   google.protobuf.StringValue BillingName = 6;
+   google.protobuf.StringValue BillingCode = 7;
+   google.protobuf.DoubleValue Amount = 8;
+   google.protobuf.DoubleValue ActualAmount = 9;
+   google.protobuf.StringValue PackCode = 10;
+   google.protobuf.Int32Value WalletStatus = 11;
+   google.protobuf.Int32Value WalletResponse = 12;
+   google.protobuf.StringValue WalletMessage = 13;
+   google.protobuf.StringValue ProviderResponse = 14;
+   google.protobuf.StringValue ProviderTransactionId = 15;
+   google.protobuf.Int32Value Status = 16;
+   google.protobuf.Int32Value GatewayCode = 17;
+   google.protobuf.StringValue Provider = 18;
+   google.protobuf.StringValue GatewayUrl = 19;
+
+}
+
+message GetDataFromProviderResult{
+   google.protobuf.StringValue ResultCode = 1;
+   google.protobuf.StringValue ResultMessage = 2;
+   google.protobuf.StringValue Data = 3;
+}
+
+message GetDataFromProviderRequest{
+   google.protobuf.StringValue TransactionId = 1;
+   google.protobuf.StringValue CustomerId = 2;
+   google.protobuf.StringValue UserName = 3;
+}
+
+message GetCustomerRequest{
+   google.protobuf.StringValue Id = 1;
+}
+message GetCustomerResult{
+   google.protobuf.StringValue ResultCode = 1;
+   google.protobuf.StringValue ResultMessage = 2;
+   CustomerItem Data = 3;
+}
+message CustomerItem {
+	google.protobuf.Int32Value Id = 1;
+	google.protobuf.StringValue Partner = 2;
+	google.protobuf.StringValue CustomerId = 3;
+	google.protobuf.StringValue Name = 4;
+	google.protobuf.StringValue Mobile = 5;
+	google.protobuf.StringValue Email = 6;
+	google.protobuf.Timestamp Birthday = 7;
+	google.protobuf.StringValue IdCard = 8;
+	google.protobuf.Timestamp Created = 9;
+	google.protobuf.Timestamp LastUpdate = 10;
+}

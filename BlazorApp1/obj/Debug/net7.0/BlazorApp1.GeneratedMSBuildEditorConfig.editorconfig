@@ -10,6 +10,8 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = BlazorApp1
 build_property.RootNamespace = BlazorApp1
 build_property.ProjectDir = D:\Learning\MyLibCode\BlazorApp1\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
@@ -32,8 +34,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Learning/MyLibCode/BlazorApp1/Pages/Parameters-set.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGFyYW1ldGVycy1zZXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Learning/MyLibCode/BlazorApp1/Pages/TestComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVzdENvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Learning/MyLibCode/BlazorApp1/Pages/ToDo.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVG9Eby5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Learning/MyLibCode/BlazorApp1/Pages/TransactionPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVHJhbnNhY3Rpb25QYWdlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Learning/MyLibCode/BlazorApp1/Shared/SurveyPrompt.razor]

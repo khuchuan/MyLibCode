@@ -6,7 +6,6 @@ D:\Learning\MyLibCode\BlazorServerAppTest\bin\Debug\net6.0\BlazorServerAppTest.d
 D:\Learning\MyLibCode\BlazorServerAppTest\bin\Debug\net6.0\BlazorServerAppTest.runtimeconfig.json
 D:\Learning\MyLibCode\BlazorServerAppTest\bin\Debug\net6.0\BlazorServerAppTest.dll
 D:\Learning\MyLibCode\BlazorServerAppTest\bin\Debug\net6.0\BlazorServerAppTest.pdb
-D:\Learning\MyLibCode\BlazorServerAppTest\obj\Debug\net6.0\BlazorServerAppTest.csproj.AssemblyReference.cache
 D:\Learning\MyLibCode\BlazorServerAppTest\obj\Debug\net6.0\BlazorServerAppTest.GeneratedMSBuildEditorConfig.editorconfig
 D:\Learning\MyLibCode\BlazorServerAppTest\obj\Debug\net6.0\BlazorServerAppTest.AssemblyInfoInputs.cache
 D:\Learning\MyLibCode\BlazorServerAppTest\obj\Debug\net6.0\BlazorServerAppTest.AssemblyInfo.cs
@@ -30,3 +29,4 @@ D:\Learning\MyLibCode\BlazorServerAppTest\obj\Debug\net6.0\refint\BlazorServerAp
 D:\Learning\MyLibCode\BlazorServerAppTest\obj\Debug\net6.0\BlazorServerAppTest.pdb
 D:\Learning\MyLibCode\BlazorServerAppTest\obj\Debug\net6.0\BlazorServerAppTest.genruntimeconfig.cache
 D:\Learning\MyLibCode\BlazorServerAppTest\obj\Debug\net6.0\ref\BlazorServerAppTest.dll
+D:\Learning\MyLibCode\BlazorServerAppTest\obj\Debug\net6.0\BlazorServerAppTest.sourcelink.json

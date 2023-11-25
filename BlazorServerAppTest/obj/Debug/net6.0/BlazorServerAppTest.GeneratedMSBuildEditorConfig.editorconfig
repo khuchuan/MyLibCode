@@ -10,6 +10,8 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = BlazorServerAppTest
 build_property.RootNamespace = BlazorServerAppTest
 build_property.ProjectDir = D:\Learning\MyLibCode\BlazorServerAppTest\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
@@ -22,6 +24,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Learning/MyLibCode/BlazorServerAppTest/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Learning/MyLibCode/BlazorServerAppTest/Pages/Demo.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGVtby5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Learning/MyLibCode/BlazorServerAppTest/Pages/FetchData.razor]

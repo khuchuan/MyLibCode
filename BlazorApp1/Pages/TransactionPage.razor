@@ -1,0 +1,215 @@
+﻿@page "/Transaction/History"
+
+@using Helper
+@using System.Globalization
+@using System.Text.Json
+@using AntDesign
+
+ 
+<Form Class="transaction-histort-form"
+      ValidateOnChange="true"
+      Model="@_model"
+      Size="default"
+      LabelAlign="AntLabelAlignType.Right"
+      LabelCol=@(new ColLayoutParam { Xl = 8, Lg = 8, Md = 8, Sm = 24, Xs = 24 })
+      WrapperCol=@(new ColLayoutParam { Xl = 16, Lg = 16, Md = 16, Sm = 24, Xs = 24 })
+      OnFinish="OnFinish"
+      OnFinishFailed="OnFinishFailed">
+    <Row Gutter="16">
+        <AntDesign.Col Xs="24" Sm="12" Md="12" Lg="12" Xl="8" Xxl="6">
+            <FormItem Label="Thời gian">
+                <RangePicker @ref="picker" CultureInfo="@CiVn" Format="dd/MM/yyyy" InputReadOnly="true" AllowClear="false" Style="width: 100%"
+                             @bind-Value="@context.RangePicker"
+                             DisabledDate="date => date >= DateTime.Now">
+                    <RenderExtraFooter>
+                        <Row Style="padding:8px" Align="middle" Justify="center" Gutter="(8, 8)">
+                            <AntDesign.Col Xxl="6" Xl="6" Lg="6" Md="6" Sm="6" Xs="6">
+                                <Button Block="true" class="extra-range-picker-item" OnClick=@(() => HandleSetValueRangerPicker("today"))>Hôm nay</Button>
+                            </AntDesign.Col>
+                            <AntDesign.Col Xxl="6" Xl="6" Lg="6" Md="6" Sm="6" Xs="6">
+                                <Button Block="true" class="extra-range-picker-item" OnClick=@(() => HandleSetValueRangerPicker("yesterday"))>Hôm qua</Button>
+                            </AntDesign.Col>
+                            <AntDesign.Col Xxl="6" Xl="6" Lg="6" Md="6" Sm="6" Xs="6">
+                                <Button Block="true" class="extra-range-picker-item" OnClick=@(() => HandleSetValueRangerPicker("7DaysBefore"))>7 ngày trước</Button>
+                            </AntDesign.Col>
+                            <AntDesign.Col Xxl="6" Xl="6" Lg="6" Md="6" Sm="6" Xs="6">
+                                <Button Block="true" class="extra-range-picker-item" OnClick=@(() => HandleSetValueRangerPicker("30DaysBefore"))>30 ngày trước</Button>
+                            </AntDesign.Col>
+                            <AntDesign.Col Xxl="6" Xl="6" Lg="6" Md="6" Sm="6" Xs="6">
+                                <Button Block="true" class="extra-range-picker-item" OnClick=@(() => HandleSetValueRangerPicker("thisMonth"))>Tháng này</Button>
+                            </AntDesign.Col>
+                            <AntDesign.Col Xxl="6" Xl="6" Lg="6" Md="6" Sm="6" Xs="6">
+                                <Button Block="true" class="extra-range-picker-item" OnClick=@(() => HandleSetValueRangerPicker("lastMonth"))>Tháng trước</Button>
+                            </AntDesign.Col>
+                            <AntDesign.Col Xxl="6" Xl="6" Lg="6" Md="6" Sm="6" Xs="6">
+                                <Button Block="true" class="extra-range-picker-item" OnClick=@(() => HandleSetValueRangerPicker("thisYear"))>Năm nay</Button>
+                            </AntDesign.Col>
+                            <AntDesign.Col Xxl="6" Xl="6" Lg="6" Md="6" Sm="6" Xs="6">
+                                <Button Block="true" class="extra-range-picker-item" OnClick=@(() => HandleSetValueRangerPicker("lastYear"))>Năm trước</Button>
+                            </AntDesign.Col>
+                        </Row>
+                    </RenderExtraFooter>
+                </RangePicker>
+            </FormItem>
+        </AntDesign.Col>
+
+        <AntDesign.Col Xs="24" Sm="12" Md="12" Lg="12" Xl="8" Xxl="6">
+            <FormItem Label="Trạng thái">
+                <Select EnableSearch @bind-Value="@context.PayBillStatus"
+                        TItemValue="int?"
+                        DefaultValue="-9999"
+                        TItem="string">
+                    <SelectOptions>
+                        <SelectOption TItemValue="int?" TItem="string"
+                                      Value="-9999" Label="Tất cả" />
+                        <SelectOption TItemValue="int?" TItem="string"
+                                      Value=@ResultCode.Status.Timeout Label=@ResultCode.GetStatusMessage(ResultCode.Status.Timeout) Class="text-warning" />
+                        <SelectOption TItemValue="int?" TItem="string"
+                                      Value=@ResultCode.Status.Failed Label=@ResultCode.GetStatusMessage(ResultCode.Status.Failed) Class="text-danger" />
+                        <SelectOption TItemValue="int?" TItem="string"
+                                      Value=@ResultCode.Status.Success Label=@ResultCode.GetStatusMessage(ResultCode.Status.Success) />
+                    </SelectOptions>
+                </Select>
+            </FormItem>
+        </AntDesign.Col>
+
+        <AntDesign.Col Xs="24" Sm="12" Md="12" Lg="12" Xl="8" Xxl="6">
+            <FormItem Label="Mã hóa đơn">
+                <Input Placeholder="Mã hóa đơn" @bind-Value="@context.BillingCode" />
+            </FormItem>
+        </AntDesign.Col>
+
+        <AntDesign.Col Xs="24" Sm="12" Md="12" Lg="12" Xl="8" Xxl="6">
+            <FormItem Label="Mã giao dịch">
+                <Input Placeholder="Mã giao dịch" @bind-Value="@context.TransactionId" />
+            </FormItem>
+        </AntDesign.Col>
+
+        <AntDesign.Col Xs="24" Sm="12" Md="12" Lg="12" Xl="8" Xxl="6">
+            <FormItem Label="Dịch vụ">
+                <Select @bind-Value="@context.Service"
+                        DefaultValue="@(string.Empty)"
+                        OnSelectedItemChanged="@HandleSelectService"
+                        Style="width: 100%;"
+                        TItemValue="string"
+                        TItem="string">
+                    <SelectOptions>
+                        <SelectOption TItemValue="string" TItem="string" Value="@(string.Empty)" Label="Tất cả" />
+                        @foreach (var item in Constants.GetListService())
+                        {
+                            <SelectOption TItemValue="string" TItem="string" Value=@(item) Label="@(Constants.GetServiceLabel(item))" />
+                        }
+                    </SelectOptions>
+                </Select>
+            </FormItem>
+        </AntDesign.Col>
+        <AntDesign.Col Xs="24" Sm="12" Md="12" Lg="12" Xl="8" Xxl="6">
+            <FormItem Label="Trạng thái Mail">
+                <Select @bind-Value="@context.SendMail"
+                        DefaultValue="@(null)"
+                        Style="width: 100%;"
+                        TItemValue="int?"
+                        TItem="string">
+                    <SelectOptions>
+                        <SelectOption TItemValue="int?" TItem="string" Value="@(null)" Label="Tất cả" />
+                        <SelectOption TItemValue="int?" TItem="string" Value="@Constants.ResSendMail.Status.Success" Label="@Constants.ResSendMail.GetMessage(Constants.ResSendMail.Status.Success)" />
+                        <SelectOption TItemValue="int?" TItem="string" Value="@Constants.ResSendMail.Status.Faile" Class="text-danger" Label="@Constants.ResSendMail.GetMessage(Constants.ResSendMail.Status.Faile)" />
+                        <SelectOption TItemValue="int?" TItem="string" Value="@Constants.ResSendMail.Status.Pending" Class="text-warning" Label="@Constants.ResSendMail.GetMessage(Constants.ResSendMail.Status.Pending)" />
+                        <SelectOption TItemValue="int?" TItem="string" Value="@Constants.ResSendMail.Status.UnSent" Class="text-warning" Label="@Constants.ResSendMail.GetMessage(Constants.ResSendMail.Status.UnSent)" />
+
+                    </SelectOptions>
+                </Select>
+            </FormItem>
+        </AntDesign.Col>
+        <AntDesign.Col Xs="24" Sm="24" Md="12" Lg="12" Xl="8" Xxl="12">
+            <FormItem WrapperColSpan="24">
+                <FlexBoxFlexEnd>
+                    <Button Type="@ButtonType.Primary" HtmlType="submit">
+                        <Icon Type="search" Theme="outline" />
+                        <span>Tra cứu</span>
+                    </Button>
+
+                    <Button Class="ml-1" Type="@ButtonType.Default">
+                        <Icon Type="file-excel" Theme="outline" />
+                        <span>Xuất báo cáo</span>
+                    </Button>
+
+
+                </FlexBoxFlexEnd>
+            </FormItem>
+        </AntDesign.Col>
+    </Row>
+</Form>
+ 
+
+@code {
+     private RangePicker<DateTime?[]> picker;
+    CultureInfo CiVn = CultureInfo.GetCultureInfo("vi-VN");
+
+    DatePickerLocale VN = new DatePickerLocale
+        {
+            FirstDayOfWeek = DayOfWeek.Monday,
+            Lang = new DateLocale
+            {
+                YearFormat = "yyyy",
+                MonthFormat = "MMM",
+                DateSelect = "Chọn ngày",
+                WeekSelect = "Chọn tuần",
+                MonthSelect = "Chọn tháng",
+                YearSelect = "Chọn năm",
+                QuarterSelect = "Chọn quý",
+                Today = "Hôm nay"
+            }
+        };
+    private void HandleSetValueRangerPicker(string time)
+    {
+        DateTime beginDate = DateTime.Today;
+        DateTime endDate = DateTime.Today;
+        switch (time)
+        {
+            case "today":
+                endDate = DateTime.Today;
+                break;
+            case "yesterday":
+                beginDate = DateTime.Today.AddDays(-1);
+                endDate = DateTime.Today.AddDays(-1);
+                break;
+            case "7DaysBefore":
+                beginDate = DateTime.Today.AddDays(-7);
+                endDate = DateTime.Today;
+                break;
+            case "30DaysBefore":
+                beginDate = DateTime.Today.AddDays(-30);
+                endDate = DateTime.Today;
+                break;
+            case "thisMonth":
+                beginDate = DateTimeExtend.FirstDayOfMonth(DateTime.Today);
+                endDate = DateTimeExtend.LastDayOfMonthStartTime(DateTime.Today);
+                break;
+            case "lastMonth":
+                beginDate = DateTimeExtend.FirstDayOfMonth(DateTime.Today.AddMonths(-1));
+                endDate = DateTimeExtend.LastDayOfMonthStartTime(DateTime.Today.AddMonths(-1));
+                break;
+            case "thisYear":
+                beginDate = DateTimeExtend.FirstDayOfYear(DateTime.Today);
+                endDate = DateTime.Today;
+                break;
+            case "lastYear":
+                beginDate = DateTimeExtend.FirstDayOfYear(DateTime.Today.AddYears(-1));
+                endDate = DateTimeExtend.LastDayOfYearStartTime(DateTime.Today.AddYears(-1));
+                break;
+            default:
+                break;
+        }
+        _model.RangePicker = new DateTime?[] { beginDate, endDate };
+        picker.Close();
+        StateHasChanged();
+    }
+
+    private void HandleSelectService(string selectedService)
+    {
+        _model.BillingName = string.Empty;
+        StateHasChanged();
+    }
+
+}
