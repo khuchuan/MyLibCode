@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Grpc.Proto")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4986fa4699f1b453d9f11007ce006a4e7da01901")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c13434595ed7b59c19d0edd0aab604152765deab")]
 [assembly: System.Reflection.AssemblyProductAttribute("Grpc.Proto")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Grpc.Proto")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
