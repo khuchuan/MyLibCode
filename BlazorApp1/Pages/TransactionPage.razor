@@ -3,9 +3,10 @@
 @using Helper
 @using System.Globalization
 @using System.Text.Json
-@using AntDesign
+@using AntDesign;
+@using BlazorApp1.Models;
 
- 
+ @* Phan lua chon dieu kien - Start *@
 <Form Class="transaction-histort-form"
       ValidateOnChange="true"
       Model="@_model"
@@ -139,11 +140,178 @@
             </FormItem>
         </AntDesign.Col>
     </Row>
+
 </Form>
+@* Phan lua chon dieu kien - End *@
+
+  
+    @* Phan than hien thi du lieu - Start *@
+    
+    <Divider Style="margin: 16px 0" />
+    @if (_dataTransactionDTO != null && _dataTransactionDTO.Count > 0 )
+    {
+                <Table TItem="DTO.TransactionHistoryInfo"
+               Size="TableSize.Small"
+               Class="custom-table-small"
+               DataSource="@_dataTransactionDTO"
+               @bind-PageIndex="@_request.PageIndex"
+               @bind-PageSize="@_request.PageSize"
+               Total="@_dataTransactionDTO.Count"
+               Bordered="true"
+               ScrollX="1400"
+               RowClassName="@(x => ResultCode.GetColor(x.Data.Status))"
+               HidePagination="true">
+                    <AntDesign.Column @bind-Field=@context.CreatedTime Hidden="@checkHide("CreatedTime")" Width="140px" Style="text-align: center;">
+                        <TitleTemplate>
+                            <FlexBoxCenter>
+                                <Icon OnClick=@(() => HandleClickSort("CreateTime")) class=@(RenderClassSortIcon("CreateTime")) Type="@RenderTypeSortIcon()" Theme="outline" />
+                                <div class="text-center">@getTitle("CreatedTime")</div>
+                            </FlexBoxCenter>
+                        </TitleTemplate>
+                        <ChildContent>
+                            @context.CreatedTime.ToString("dd/MM/yyyy HH:mm:ss")
+                        </ChildContent>
+                    </AntDesign.Column>
+
+                    <AntDesign.Column @bind-Field=@context.ResponseTime Hidden="@checkHide("ResponseTime")" Title="@getTitle("ResponseTime")" Width="140px" Class="text-center">
+                        <ChildContent>
+                            @context.ResponseTime.ToString("dd/MM/yyyy HH:mm:ss")
+                        </ChildContent>
+                    </AntDesign.Column>
+
+                    <AntDesign.Column @bind-Field=@context.TrackingId Hidden="@checkHide("TrackingId")" Ellipsis Title="@getTitle("TrackingId")" Class="text-center">
+                        <ChildContent>
+                            <Text Ellipsis="true">@context.TrackingId</Text>
+                        </ChildContent>
+                    </AntDesign.Column>
+
+                    <AntDesign.Column @bind-Field=@context.Username Hidden="@checkHide("Username")" Width="120px" Style="text-align: center;">
+                        <TitleTemplate>
+                            <FlexBoxCenter>
+                                <Icon OnClick=@(() => HandleClickSort("Username")) class=@(RenderClassSortIcon("Username")) Type="@RenderTypeSortIcon()" Theme="outline" />
+                                <div class="text-center">@getTitle("Username")</div>
+                            </FlexBoxCenter>
+                        </TitleTemplate>
+                    </AntDesign.Column>
+
+                    <AntDesign.Column @bind-Field=@context.Partner Hidden="@checkHide("Partner")" Style="text-align: center;" Width="7%">
+                        <TitleTemplate>
+                            <FlexBoxCenter>
+                                <Icon OnClick=@(() => HandleClickSort("Partner")) class=@(RenderClassSortIcon("Partner")) Type="@RenderTypeSortIcon()" Theme="outline" Style="text-align: center;" />
+                                <div class="text-center">@getTitle("Partner")</div>
+                            </FlexBoxCenter>
+                        </TitleTemplate>
+                    </AntDesign.Column>
+
+                    <AntDesign.Column @bind-Field=@context.ServiceId Ellipsis Hidden="@checkHide("ServiceId")" Class="text-center">
+                        <TitleTemplate>
+                            <FlexBoxCenter>
+                                <Icon OnClick=@(() => HandleClickSort("ServiceId")) class=@(RenderClassSortIcon("ServiceId")) Type="@RenderTypeSortIcon()" Theme="outline" Style="text-align: center;" />
+                                <div class="text-center">@getTitle("ServiceId")</div>
+                            </FlexBoxCenter>
+                        </TitleTemplate>
+                    </AntDesign.Column>
+
+                    <AntDesign.Column @bind-Field=@context.ProductCode Ellipsis Hidden="@checkHide("ProductCode")" Class="text-center">
+                        <TitleTemplate>
+                            <FlexBoxCenter>
+                                <Icon OnClick=@(() => HandleClickSort("ProductCode")) class=@(RenderClassSortIcon("ProductCode")) Type="@RenderTypeSortIcon()" Theme="outline" Style="text-align: center;" />
+                                <div class="text-center">@getTitle("ProductCode")</div>
+                            </FlexBoxCenter>
+                        </TitleTemplate>
+                    </AntDesign.Column>
+
+                      <AntDesign.Column @bind-Field=@context.PackCode Ellipsis Hidden="@checkHide("PackCode")" Class="text-center">
+                        <TitleTemplate>
+                            <FlexBoxCenter>
+                                <Icon OnClick=@(() => HandleClickSort("PackCode")) class=@(RenderClassSortIcon("PackCode")) Type="@RenderTypeSortIcon()" Theme="outline" Style="text-align: center;" />
+                        <div class="text-center">@getTitle("PackCode")</div>
+                            </FlexBoxCenter>
+                        </TitleTemplate>
+                    </AntDesign.Column>
+
+                    <AntDesign.Column @bind-Field=@context.BillingCode Hidden="@checkHide("BillingCode")" Ellipsis Title="@getTitle("BillingCode")" Class="text-center" />
+
+
+                    <AntDesign.Column @bind-Field=@context.Amount Hidden="@checkHide("Amount")" Style="text-align: center;" Width="105px">
+                        <TitleTemplate>
+                            <FlexBoxCenter>
+                                <Icon OnClick=@(() => HandleClickSort("Amount")) class=@(RenderClassSortIcon("Amount")) Type="@RenderTypeSortIcon()" Theme="outline" />
+                                <div class="text-center">@getTitle("Amount")</div>
+                            </FlexBoxCenter>
+                        </TitleTemplate>
+                        <ChildContent>
+                            @NumberFormat.ThousandSeparator(context.Amount)
+                        </ChildContent>
+                    </AntDesign.Column>
+
+                    <AntDesign.Column @bind-Field=@context.ActualAmount Hidden="@checkHide("ActualAmount")" Title="@getTitle("ActualAmount")" Class="text-center" Width="100px">
+                        <ChildContent>
+                            @NumberFormat.ThousandSeparator(context.ActualAmount)
+                        </ChildContent>
+                    </AntDesign.Column>
+
+                    <AntDesign.Column @bind-Field=@context.Status Hidden="@checkHide("Status")" Class="text-center" Width="100px">
+                        <TitleTemplate>
+                            <FlexBoxCenter>
+                                <Icon OnClick=@(() => HandleClickSort("Status")) class=@(RenderClassSortIcon("Status")) Type="@RenderTypeSortIcon()" Theme="outline" />
+                                <div class="text-center">@getTitle("Status")</div>
+                            </FlexBoxCenter>
+                        </TitleTemplate>
+                        <ChildContent>
+                            <Text Type="@(context.Status != ResultCode.Status.Success ? ResultCode.GetColor(context.Status) : "")">@ResultCode.GetStatusMessage(context.Status)</Text>
+                        </ChildContent>
+                    </AntDesign.Column>
+
+                    <AntDesign.Column @bind-Field=@context.Status Hidden="@checkHide("SendMail")" Class="text-center" Width="100px">
+                        <TitleTemplate>
+                            <FlexBoxCenter>
+                                <Icon OnClick=@(() => HandleClickSort("SendMail")) class=@(RenderClassSortIcon("SendMail")) Type="@RenderTypeSortIcon()" Theme="outline" />
+                                <div class="text-center">@getTitle("SendMail")</div>
+                            </FlexBoxCenter>
+                        </TitleTemplate>
+                        <ChildContent>
+                            <Text Type="@GetSendMailColor(context)">@(context.SendMail != null ? Constants.ResSendMail.GetMessage(context.SendMail.GetValueOrDefault(-99)) : "")</Text>
+                        </ChildContent>
+                    </AntDesign.Column>
+
+                    <AntDesign.Column @bind-Field=@context.ResultCode Hidden="@checkHide("ResultCode")" Title="@getTitle("ResultCode")" Class="text-center" Width="100px" />
+
+                    <ActionColumn Fixed="right" Title="Tác vụ" Class="text-center" Width="80px">
+                        <ChildContent>
+                            <button title="Thông tin chi tiết" @onclick="() => HandleClickViewDetail(context.Id)" type="button" class="btn btn-xs bg-info">
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                            @if (context.Status == ResultCode.Status.Success && context.SendMail != Constants.ResSendMail.Status.Pending && context.SendMail != Constants.ResSendMail.Status.Success && (context.ServiceId.Equals(Constants.Service.DATACARD) || context.ServiceId.Equals(Constants.Service.GAMECARD) || context.ServiceId.Equals(Constants.Service.PHONECARD)))
+                            {
+                                <button title="Gửi Email" @onclick="() => HandleSendMailSoftpin(context)" type="button" class="btn btn-xs bg-info ml-1">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            }
+                        </ChildContent>
+                    </ActionColumn>
+                </Table>
+                <Divider />
+                <Row Justify="space-between" Align="middle">
+                    <div>Hiển thị @(_request.PageSize > _dataTransactionDTO.Count ? _dataTransactionDTO.Count : _request.PageSize) trên tổng số @_dataTransactionDTO.Count bản ghi.</div>
+                    <AntDesign.Col>
+                        <Pagination ShowSizeChanger="true"
+                            PageSizeOptions="new int[] { 20, 30 ,50 , 100 }"
+                            OnChange="OnShowSizeChange"
+                            @bind-Current="@_request.PageIndex"
+                            @bind-PageSize="@_request.PageSize"
+                            Total="@_dataTransactionDTO.Count" />
+                    </AntDesign.Col>
+                </Row>
+    }
+
+    @* Phan than hien thi du lieu - End *@
+
+
  
 
 @code {
-     private RangePicker<DateTime?[]> picker;
+    private RangePicker<DateTime?[]> picker;
     CultureInfo CiVn = CultureInfo.GetCultureInfo("vi-VN");
 
     DatePickerLocale VN = new DatePickerLocale
@@ -161,6 +329,7 @@
                 Today = "Hôm nay"
             }
         };
+
     private void HandleSetValueRangerPicker(string time)
     {
         DateTime beginDate = DateTime.Today;
@@ -210,6 +379,37 @@
     {
         _model.BillingName = string.Empty;
         StateHasChanged();
+    }
+
+    bool checkHide(string key)
+    {
+        return _selectedColumns.Any(x => x == key);
+    }
+
+     string getTitle(string key)
+    {
+        var column = _columns.FirstOrDefault(x => x.Key == key);
+        return column != null ? column.Title : "Unknown";
+    }
+
+    private async Task OnSelectedItemsChangedHandler(IEnumerable<Column> values)
+    {
+        await _localStorageService.SetItemAsync<IEnumerable<Column>>("View_Transaction_List", values);
+    }    
+
+     private static string GetSendMailColor(DTO.TransactionHistoryInfo context)
+    {
+        switch (context.SendMail)
+        {
+            case Constants.ResSendMail.Status.Pending:
+            case Constants.ResSendMail.Status.UnSent:
+                return context.ServiceId.ToUpper().Contains("CARD") ? "warning" : "";
+            case Constants.ResSendMail.Status.Faile:
+                return "danger";
+            default:
+                return "";
+        }
+
     }
 
 }

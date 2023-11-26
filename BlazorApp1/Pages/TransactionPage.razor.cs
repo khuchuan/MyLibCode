@@ -3,14 +3,24 @@ using BlazorApp1.Models;
 using Helper;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Text.Json;
+using Microsoft.AspNetCore.Components;
+using DTO;
+using Microsoft.Extensions.Logging;
 
 
 namespace BlazorApp1.Pages
 {
-    public  partial class TransactionPage
+    public partial class TransactionPage
     {
+        [Inject] private Blazored.LocalStorage.ILocalStorageService _localStorageService { get; set; }
+
         private static DateTime DefaultStartDate = DateTime.Today.AddDays(-7);
         private static DateTime DefaultEndDate = DateTime.Today;
+
+        private List<DTO.TransactionHistoryInfo> _dataTransactionDTO;
+        private string _transactionId;
+        bool visibleModalViewDetail = false;
+        private IEnumerable<string> _selectedColumns { get; set; } = new List<string>();
 
 
         public class Model
@@ -28,8 +38,25 @@ namespace BlazorApp1.Pages
             public string SortDir = "DESC";
         }
 
+        private List<Column> _columns = new List<Column>() {
+            new Column { Key = "CreatedTime", Title = "Thời gian tạo" },
+            new Column { Key = "ResponseTime", Title = "Thời gian phản hồi" },
+            new Column { Key = "TrackingId", Title = "Mã giao dịch" },
+            new Column { Key = "Username", Title = "Khách hàng" },
+            new Column { Key = "Partner", Title = "Đối tác" },
+            new Column { Key = "ServiceId", Title = "Dịch vụ" },
+            new Column { Key = "ProductCode", Title = "Sản phẩm" },
+            new Column { Key = "PackCode", Title = "Mã gói" },
+            new Column { Key = "BillingCode", Title = "Mã hóa đơn" },
+            new Column { Key = "Amount", Title = "Mệnh giá" },
+            new Column { Key = "ActualAmount", Title = "Số tiền" },
+            new Column { Key = "Status", Title = "Trạng thái" },
+            new Column { Key = "SendMail", Title = "Trạng thái Mail" },
+            new Column { Key = "ResultCode", Title = "Mã kết quả" }
+        };
+
         private GetTransactionHistoryRequest _request = new GetTransactionHistoryRequest()
-        {
+        {          
             StartDate = DateTime.Now,
             EndDate = DateTime.Now,
             Service = string.Empty,
@@ -44,23 +71,20 @@ namespace BlazorApp1.Pages
             PageSize = 20
         };
 
-
         private Model _model = new Model();
-
 
         private async void OnFinish(EditContext editContext)
         {
             _request.PageIndex = 1;
             await CollectData();
-            //await GetData();
-            StateHasChanged();
+            await GetData();
+            // StateHasChanged();
         }
 
         private void OnFinishFailed(EditContext editContext)
         {
             Console.WriteLine($"Failed:{JsonSerializer.Serialize(_model)}");
         }
-
 
         private async Task CollectData()
         {
@@ -76,5 +100,102 @@ namespace BlazorApp1.Pages
             _request.SendMail = _model.SendMail;
             await Task.CompletedTask;
         }
+
+        // Fake du lieu
+        private async Task GetData()
+        {
+            _dataTransactionDTO = new List<DTO.TransactionHistoryInfo>();
+
+            int numberData = 60;
+            for (int i = 0; i < numberData; i++)
+            {
+                TransactionHistoryInfo tranInfo = new TransactionHistoryInfo()
+                {
+                    ActualAmount = 20000 + i * 1000,
+                    Amount = 20000 + i * 1000,
+                    BillingCode = "090123" + i.ToString().PadLeft(5, '0'),
+                    CreatedTime = DateTime.Now,
+                    CustomerId = "iristest",
+                    Id = Guid.NewGuid().ToString(),
+                    PackCode = "STK00X",
+                    Partner = "VnPay",
+                    ProductCode = "MOBIFONE_DATA",
+                    ProductName = "Goi da ta menh gia " + (i * 1000).ToString() + " VND",
+                    Quantity = 1,
+                    ResponseTime = DateTime.Now,
+                    ResultCode = "00",
+                    Status = 9,
+                    TrackingId = "MBF" + DateTime.Now.ToString("HHmmss"),
+                    ServiceId = "DATA",
+                    Username = "usernametest",
+                    TotalRows = numberData,
+                    SendMail = 0
+                };
+                _dataTransactionDTO.Add(tranInfo);
+            }
+        }
+
+        private async Task OnShowSizeChange(PaginationEventArgs args)
+        {
+            _request.PageIndex = args.Page;
+            _request.PageSize = args.PageSize;
+            await GetData();
+        }
+
+        private async void HandleClickSort(string sortExpr)
+        {
+            if (sortExpr == _model.SortExpr)
+            {
+                if (_model.SortDir == "DESC")
+                {
+                    _model.SortDir = "ASC";
+                }
+                else
+                {
+                    _model.SortExpr = "CreateDate";
+                    _model.SortDir = "DESC";
+                }
+            }
+            else
+            {
+                _model.SortExpr = sortExpr;
+                _model.SortDir = "DESC";
+            }
+            await CollectData();
+            await GetData();
+        }
+
+        private string RenderClassSortIcon(string itemSortExpr)
+        {
+            return _model.SortExpr == itemSortExpr ? "rotate-sort-icon-active" : "rotate-sort-icon";
+        }
+
+        private string RenderTypeSortIcon()
+        {
+            return _model.SortDir == "DESC" ? "sort-ascending" : "sort-descending";
+        }
+
+        private async Task HandleSendMailSoftpin(DTO.TransactionHistoryInfo context)
+        {
+            try
+            {
+            }
+            catch (Exception ex)
+            {         
+            }
+        }
+
+
+        private void HandleClickViewDetail(string id)
+        {
+            _transactionId = id;
+            visibleModalViewDetail = true;
+            StateHasChanged();
+        }
+
+
+
+
+
     }
 }

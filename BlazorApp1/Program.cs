@@ -1,5 +1,6 @@
 using BlazorApp1.Data;
 using BlazorApp1.Services;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using static Helper.Constants;
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddTransient<IFileService, FileService>();
 builder.Services.AddScoped<IToDoService, ToDoService>();
