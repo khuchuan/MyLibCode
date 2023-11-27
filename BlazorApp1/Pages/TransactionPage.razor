@@ -173,7 +173,7 @@
                         </ChildContent>
                     </AntDesign.Column>
 
-                    <AntDesign.Column @bind-Field=@context.ResponseTime Hidden="@checkHide("ResponseTime")" Title="@getTitle("ResponseTime")" Width="140px" Class="text-center">
+                    <AntDesign.Column @bind-Field=@context.ResponseTime  Hidden="@checkHide("ResponseTime")" Title="@getTitle("ResponseTime")" Width="140px" Class="text-center">
                         <ChildContent>
                             @context.ResponseTime.ToString("dd/MM/yyyy HH:mm:ss")
                         </ChildContent>
@@ -291,12 +291,13 @@
                         </ChildContent>
                     </ActionColumn>
                 </Table>
+
                 <Divider />
                 <Row Justify="space-between" Align="middle">
                     <div>Hiển thị @(_request.PageSize > _dataTransactionDTO.Count ? _dataTransactionDTO.Count : _request.PageSize) trên tổng số @_dataTransactionDTO.Count bản ghi.</div>
                     <AntDesign.Col>
                         <Pagination ShowSizeChanger="true"
-                            PageSizeOptions="new int[] { 20, 30 ,50 , 100 }"
+                            PageSizeOptions="new int[] { 20, 30 ,50 , 59 }"
                             OnChange="OnShowSizeChange"
                             @bind-Current="@_request.PageIndex"
                             @bind-PageSize="@_request.PageSize"

@@ -78,7 +78,7 @@ namespace BlazorApp1.Pages
             _request.PageIndex = 1;
             await CollectData();
             await GetData();
-            // StateHasChanged();
+            StateHasChanged();
         }
 
         private void OnFinishFailed(EditContext editContext)
@@ -116,7 +116,7 @@ namespace BlazorApp1.Pages
                     BillingCode = "090123" + i.ToString().PadLeft(5, '0'),
                     CreatedTime = DateTime.Now,
                     CustomerId = "iristest",
-                    Id = Guid.NewGuid().ToString(),
+                    Id = DateTime.Now.ToString("HHmmss"),
                     PackCode = "STK00X",
                     Partner = "VnPay",
                     ProductCode = "MOBIFONE_DATA",
@@ -125,7 +125,7 @@ namespace BlazorApp1.Pages
                     ResponseTime = DateTime.Now,
                     ResultCode = "00",
                     Status = 9,
-                    TrackingId = "MBF" + DateTime.Now.ToString("HHmmss"),
+                    TrackingId =  i.ToString().PadLeft(4, '0'),
                     ServiceId = "DATA",
                     Username = "usernametest",
                     TotalRows = numberData,
