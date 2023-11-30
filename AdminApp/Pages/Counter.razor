@@ -16,3 +16,21 @@
         currentCount++;
     }
 }
+
+
+<script>
+    $(document).ready(function () {
+        console.log('Start test cookie');
+
+        Cookies.remove('username')
+        const username = Cookies.get('username');
+        console.log('Cookies before username=' + username)
+
+        Cookies.set('username', 'huankc');
+        const  username2 = Cookies.get('username');
+        console.log('Cookies after set username=' + username2)
+
+        
+
+    })
+</script>

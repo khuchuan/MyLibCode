@@ -1,0 +1,67 @@
+﻿@page "/Identity/Account/Login"
+@using AdminApp.Areas.Identity.Pages.Account
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<link rel="stylesheet" href="/css/login.css" type="text/css" />
+
+<div class="login-page">
+    <div class="lp-col-left">
+        <div class="lp-container-left">
+            <img src="/images/logo smsc wht.png" />
+            <div class="lpcl-slogan">
+                <h1 class="lpcls-title">Dịch vụ SMSC Branding</h1>
+                <h2 class="lpcls-subtitle">Một khởi đầu mới cho thành công mới</h2>
+            </div>
+            <a href="javascript:;">
+                <span class="lpcls-link">© @DateTime.Now.Year IRIS</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="lp-col-right">
+        <div class="lp-container-right">
+            <img src="/images/logo IRIS mini.png" />
+            <h3 class="lf-title">Đăng nhập</h3>
+            <form id="account" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Email" class="form-control" placeholder="Tài khoản" required>
+                    <label asp-for="Input.Email">Tài khoản</label>
+                </div>
+
+                <div class="mb-3">
+                    <div class="input-group" id="show_hide_password">
+                        <div class="form-floating flex-grow-1">
+                            <input asp-for="Input.Password" type="password" placeholder="Mật khẩu" class="form-control" required />
+                            <label asp-for="Input.Password">Mật khẩu</label>
+                        </div>
+
+                        <div class="input-group-text bg-transparent" style="width:50px;justify-content:center;right: 0;height: 100%;border: none;position: absolute;">
+                            <a href="javascript:;"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="lpcr-submit">
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" asp-for="Input.RememberMe" type="checkbox">
+                            <label class="form-check-label" asp-for="Input.RememberMe">
+                                @Html.DisplayNameFor(m => m.Input.RememberMe)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-lg btn-primary text-uppercase w-100">Đăng nhập</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
