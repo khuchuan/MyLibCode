@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+option csharp_namespace = "ReportService";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+package Report;
+
+service RefundOrder {  
+  rpc GetRefundOrderPaging (GetRefundOrderPagingRequest) returns (GetRefundOrderPagingResult);
+  rpc GetDetailRefundOrder (GetDetailRefundOrderRequest) returns (GetDetailRefundOrderResult);
+  rpc GetRefundOrderByTransaction (GetRefundOrderByTransactionRequest) returns (GetRefundOrderByTransactionResult);
+  rpc GetResponFromProvider (GetResponFromProviderRequest) returns (GetResponFromProviderResult);
+}
+
+message GetRefundOrderPagingRequest{
+  google.protobuf.Timestamp StartDate = 1;
+  google.protobuf.Timestamp EndDate = 2;
+  google.protobuf.StringValue Search = 3;
+  int32 Status = 4;
+  int32 PageIndex = 5;
+  int32 PageSize = 6;
+  google.protobuf.StringValue SortExpr = 7;
+  google.protobuf.StringValue SortDir = 8;
+}
+
+message GetRefundOrderPagingResult{
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  int32 TotalCount = 3;
+  repeated TransactionRefundItem Data = 4;
+}
+
+message GetDetailRefundOrderRequest{
+	google.protobuf.StringValue Id = 1;
+}
+
+message GetDetailRefundOrderResult{
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+   RefundOrderItem RefundOrder = 3;
+}
+
+message RefundOrderItem{
+   google.protobuf.StringValue Id = 1;
+   google.protobuf.StringValue TransactionId = 2;
+   google.protobuf.StringValue TrackingId = 3;
+   google.protobuf.Timestamp CreateTime = 4;
+   google.protobuf.StringValue BillingCode = 5;
+   google.protobuf.DoubleValue ActualAmount = 6;
+   google.protobuf.Int32Value ResultStatus = 7;
+   google.protobuf.Timestamp PartnerCreateTime = 8;
+   google.protobuf.Timestamp ResponseTime = 9;
+   google.protobuf.StringValue ResultCode = 10;
+   google.protobuf.StringValue UserName = 11;
+   google.protobuf.StringValue PartnerRefundId = 12;
+}
+message TransactionRefundItem{
+   google.protobuf.StringValue Id = 1;
+   google.protobuf.StringValue TransactionId = 2;
+   google.protobuf.StringValue TrackingId = 3;
+   google.protobuf.Timestamp CreateTime = 4;
+   google.protobuf.StringValue BillingCode = 5;
+   google.protobuf.DoubleValue ActualAmount = 6;
+   google.protobuf.Int32Value ResultStatus = 7;
+   google.protobuf.Timestamp RefundCreateTime = 8;
+   google.protobuf.Timestamp RefundResponseTime = 9;
+   google.protobuf.Int32Value RefundResultStatus = 10;
+}
+
+message GetRefundOrderByTransactionRequest{
+	google.protobuf.StringValue Id = 1;
+}
+
+message GetRefundOrderByTransactionResult{
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  repeated RefundOrderItem Data = 3;
+}
+
+message GetResponFromProviderRequest{
+  google.protobuf.StringValue RefundOrderId = 1;
+  google.protobuf.StringValue Partner = 2;
+}
+
+message GetResponFromProviderResult{
+  google.protobuf.StringValue Data = 1;
+}
+ 

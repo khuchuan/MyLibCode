@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+option csharp_namespace = "AdminService";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+package Admin;
+
+service TransactionAdmin {
+  rpc UpdateTransactionStatus (UpdateTransactionStatusRequest) returns (UpdateTransactionStatusResult);
+  rpc RefundOrder (RefundOrderRequest) returns (RefundOrderResult);
+  rpc GetTransaction (GetTransactionRequest) returns (GetTransactionResult);
+  rpc SendMailSoftpin (SendMailSoftpinRequest) returns (SendMailSoftpinResult);
+}
+
+message TransactionItem {
+	google.protobuf.StringValue Id = 1;
+	google.protobuf.StringValue TrackingId = 2;
+	google.protobuf.Timestamp CreateTime = 3;
+	google.protobuf.StringValue ClientIp = 4;
+	google.protobuf.StringValue BillingCode = 5;
+	google.protobuf.StringValue ProductId = 6;
+	google.protobuf.StringValue PackId = 7;
+	double Amount = 8;
+	double ActualAmount = 9;
+	google.protobuf.StringValue Username = 10;
+	google.protobuf.StringValue DiscountRate = 11;
+	google.protobuf.StringValue ServiceId = 12;
+	google.protobuf.StringValue CustomerId = 13;
+	google.protobuf.StringValue Description = 14;
+	google.protobuf.StringValue Partner = 15;
+	google.protobuf.Int32Value ResultStatus = 16;
+	google.protobuf.StringValue ResultCode = 17;
+	google.protobuf.Timestamp PayTime = 18;
+	google.protobuf.Timestamp ResponseTime = 19;
+	google.protobuf.StringValue PartnerTransactionId = 20;
+	google.protobuf.Timestamp PartnerCreateTime = 21;
+	google.protobuf.StringValue FundingSource = 22;
+	google.protobuf.StringValue Extend1 = 23;
+	google.protobuf.StringValue Extend2 = 24;
+	google.protobuf.Int32Value Quantity = 25;
+}
+
+
+message UpdateTransactionStatusRequest {
+	google.protobuf.StringValue TransactionId = 1;
+    google.protobuf.Int32Value Status = 2;
+}
+
+message UpdateTransactionStatusResult {
+	google.protobuf.StringValue ResultCode = 1;
+    google.protobuf.StringValue ResultMessage = 2;
+	TransactionItem Data = 3;
+}
+
+message RefundOrderRequest {
+	google.protobuf.StringValue TransactionId = 1;
+}
+
+message GetTransactionRequest {
+	google.protobuf.StringValue TransactionId = 1;
+}
+
+message GetTransactionResult {
+	google.protobuf.StringValue ResultCode = 1;
+    google.protobuf.StringValue ResultMessage = 2;
+	TransactionItem Data = 3;
+}
+
+
+message RefundOrderResult {
+  google.protobuf.Int32Value ResultStatus = 1;
+  google.protobuf.StringValue ResultCode = 2;
+  google.protobuf.StringValue ResultMessage = 3;
+  google.protobuf.StringValue PartnerRefundId = 4;
+  google.protobuf.Timestamp PartnerCreateTime = 5;
+}
+
+message SendMailSoftpinRequest {
+  google.protobuf.StringValue Partner = 1;
+  google.protobuf.StringValue CustomerId = 2;
+  google.protobuf.StringValue TransactionId = 3;
+}
+
+message SendMailSoftpinResult {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+}

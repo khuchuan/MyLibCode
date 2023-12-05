@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+option csharp_namespace = "ReportService";
+// import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+package Report;
+
+service AuditLog {
+  rpc GetCollection (GetCollectionRequest) returns (GetCollectionResult);
+  rpc GetAuditLogs (GetAuditLogsRequest) returns (GetAuditLogsResult);
+  rpc GetAuditLogDetail (GetDetailRequest) returns (GetDetailResult);
+}
+message GetCollectionRequest{}
+message GetCollectionResult {
+  string ResultCode = 1;
+  string ResultMessage = 2;
+  repeated google.protobuf.StringValue Data = 3;
+}
+message GetAuditLogsRequest {
+  google.protobuf.Timestamp StartDate = 1;
+  google.protobuf.Timestamp EndDate = 2;
+  google.protobuf.StringValue Collection = 3;
+  google.protobuf.StringValue Partner = 12;
+  google.protobuf.StringValue FilterField = 13;
+  google.protobuf.StringValue FilterValue = 14;
+  int32 FilterType = 15;
+  google.protobuf.StringValue SortExpr = 8;
+  google.protobuf.StringValue SortDir = 9;
+  int32 PageIndex = 10;
+  int32 PageSize = 11;
+}
+message GetAuditLogsResult {
+	google.protobuf.StringValue ResultCode = 1;
+	google.protobuf.StringValue ResultMessage = 2;
+	int32 TotalItem = 3;
+	repeated AuditLogItem Data = 4;
+}
+message GetDetailRequest{
+	google.protobuf.StringValue TraceId = 1;
+}
+message GetDetailResult {
+	google.protobuf.StringValue ResultCode = 1;
+	google.protobuf.StringValue ResultMessage = 2;
+	repeated DetailItem Data = 3;
+}
+message AuditLogItem {
+	google.protobuf.StringValue EventType = 1;
+	Environment Environment = 2;
+	google.protobuf.Timestamp StartDate = 3;
+	google.protobuf.Timestamp EndDate = 4;
+	google.protobuf.Int32Value Duration = 5;
+	Headers Headers = 6;
+	google.protobuf.StringValue Exception = 7;
+	google.protobuf.StringValue Comments = 8;
+	google.protobuf.StringValue Username = 9;
+	google.protobuf.StringValue IpAddress = 10;
+	google.protobuf.StringValue TraceId = 11;
+	google.protobuf.StringValue FormVariables = 12;
+	RequestBody RequestBody = 13;
+	google.protobuf.Int32Value ResponseStatusCode = 14;
+	google.protobuf.StringValue ResponseStatus = 15;
+	google.protobuf.StringValue ResponseBody = 16;
+	google.protobuf.StringValue EntityEventInfo = 17;
+}
+message Environment{
+	google.protobuf.StringValue UserName = 1;
+	google.protobuf.StringValue MachineName = 2;
+	google.protobuf.StringValue DomainName = 3;
+	google.protobuf.StringValue CallingMethodName = 4;
+	google.protobuf.StringValue AssemblyName = 5;
+	google.protobuf.StringValue Culture = 6;
+}
+message Headers{
+	google.protobuf.StringValue Host = 1;
+	google.protobuf.StringValue ClientIp = 2;
+	google.protobuf.StringValue TraceId = 3;
+}
+message RequestBody{
+	google.protobuf.Int32Value ResponseStatusCode = 1;
+	google.protobuf.StringValue ResponseStatus = 2;
+}
+
+message DetailItem{
+	google.protobuf.StringValue Collection = 1;
+	google.protobuf.StringValue Key = 2;
+	google.protobuf.StringValue Value = 3;
+	google.protobuf.StringValue DataType = 4;
+	google.protobuf.StringValue ChildCount = 5;
+	repeated DetailItem Children = 6;
+	google.protobuf.StringValue Path = 7;
+}

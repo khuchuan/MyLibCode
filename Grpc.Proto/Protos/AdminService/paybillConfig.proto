@@ -1,0 +1,41 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "AdminService";
+import "google/protobuf/wrappers.proto";
+package Admin;
+
+service PaybillConfig {  
+  rpc GetProduct(GetProductRequest) returns (GetProductResult);
+  rpc GetPacks(GetProductRequest) returns (GetPacksResult);
+}
+message GetProductRequest{
+
+}
+
+message GetProductResult{
+	string ResultCode = 1;
+	string ResultMessage = 2;
+	repeated ProductItem Data = 3;
+}
+message GetPacksResult{
+	string ResultCode = 1;
+	string ResultMessage = 2;
+	repeated PacksItem Data = 3;
+}
+
+message ProductItem {
+  google.protobuf.StringValue ProductId = 1;
+  google.protobuf.StringValue ProductName = 2;
+  google.protobuf.StringValue ServiceId = 3;
+  bool IsActive = 4;
+}
+
+
+message PacksItem {
+  google.protobuf.StringValue ProductId = 1;
+  google.protobuf.StringValue PackId = 2;
+  google.protobuf.StringValue Data = 3;
+  double Amount = 4;
+  google.protobuf.Int32Value TimeLimit = 5;
+  google.protobuf.StringValue Name = 6;
+}

@@ -1,6 +1,5 @@
 ﻿@page "/Identity/Account/Login"
-@using AdminApp.Areas.Identity.Pages.Account
-@model LoginModel
+@model LoginModel  
 
 @{
     ViewData["Title"] = "Đăng nhập";
@@ -30,29 +29,29 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="form-floating mb-3">
-                    <input asp-for="Input.Email" class="form-control" placeholder="Tài khoản" required>
-                    <label asp-for="Input.Email">Tài khoản</label>
+                    <input asp-for="Input2.Email" class="form-control" placeholder="Tài khoản" required>
+                    <label asp-for="Input2.Email">Tài khoản</label>
                 </div>
 
                 <div class="mb-3">
                     <div class="input-group" id="show_hide_password">
                         <div class="form-floating flex-grow-1">
-                            <input asp-for="Input.Password" type="password" placeholder="Mật khẩu" class="form-control" required />
-                            <label asp-for="Input.Password">Mật khẩu</label>
+                            <input asp-for="Input2.Password" type="password" placeholder="Mật khẩu" class="form-control" required />
+                            <label asp-for="Input2.Password">Mật khẩu</label>
                         </div>
 
                         <div class="input-group-text bg-transparent" style="width:50px;justify-content:center;right: 0;height: 100%;border: none;position: absolute;">
                             <a href="javascript:;"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
                         </div>
                     </div>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    <span asp-validation-for="Input2.Password" class="text-danger"></span>
                 </div>
                 <div class="lpcr-submit">
                     <div class="mb-3">
                         <div class="form-check">
-                            <input class="form-check-input" asp-for="Input.RememberMe" type="checkbox">
-                            <label class="form-check-label" asp-for="Input.RememberMe">
-                                @Html.DisplayNameFor(m => m.Input.RememberMe)
+                            <input class="form-check-input" asp-for="Input2.RememberMe" type="checkbox">
+                            <label class="form-check-label" asp-for="Input2.RememberMe">
+                                @Html.DisplayNameFor(m => m.Input2.RememberMe)
                             </label>
                         </div>
                     </div>
@@ -65,3 +64,51 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        getCookie();
+
+        $("#show_hide_password a").on('click', function (event) {
+            event.preventDefault();
+            if ($('#show_hide_password input').attr("type") == "text") {
+                $('#show_hide_password input').attr('type', 'password');
+                $('#show_hide_password i').addClass("fa-eye-slash");
+                $('#show_hide_password i').removeClass("fa-eye");
+            } else if ($('#show_hide_password input').attr("type") == "password") {
+                $('#show_hide_password input').attr('type', 'text');
+                $('#show_hide_password i').removeClass("fa-eye-slash");
+                $('#show_hide_password i').addClass("fa-eye");
+            }
+        });
+        $("#Input_Email").keyup(function () {
+            $(".validation-summary-errors").find("li").text("");
+        });
+        $("#Input_Password").keyup(function () {
+            $(".validation-summary-errors").find("li").text("");
+        });
+    });
+
+    getCookie = function () {
+        const remember = Cookies.get('remember');        
+        const username = Cookies.get('username');
+        const password = Cookies.get('password');
+
+        console.log('Cookies remember=' + remember)
+        console.log('Cookies username=' + username)
+        console.log('Cookies password=' + password)
+
+        if (remember === "True") {
+            $("#Input_Email").val(username);
+            $("#Input_Password").val(password);
+            $('#Input_RememberMe').prop('checked', true);
+        } else
+            $('#Input_RememberMe').prop('checked', false);
+    }
+</script>
+
+
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,51 @@
+﻿syntax = "proto3";
+option csharp_namespace = "ReportService";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+package Report;
+
+service PromotionCampaign {
+  rpc GetPromotionCampaign(GetPromotionCampaignRequest) returns (GetPromotionCampaignResult);
+}
+
+message GetPromotionCampaignRequest {
+  google.protobuf.Timestamp StartDate = 1;
+  google.protobuf.Timestamp EndDate = 2;
+  google.protobuf.StringValue Service = 3;
+  google.protobuf.StringValue Search = 4;
+  google.protobuf.Int32Value Status = 5;
+  google.protobuf.StringValue Partner = 6;
+  google.protobuf.StringValue SortExpr = 7;
+  google.protobuf.StringValue SortDir = 8;
+  int32 PageIndex = 9;
+  int32 PageSize = 10;
+}
+message GetPromotionCampaignResult {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  int32 TotalCount = 3;
+  repeated PromotionCampaignItem Data = 4;
+}
+
+
+message PromotionCampaignItem {
+	google.protobuf.Int32Value Id = 1;
+	google.protobuf.StringValue Name = 2;
+	google.protobuf.Timestamp StartTime = 3;
+	google.protobuf.Timestamp EndTime = 4;
+	google.protobuf.StringValue SubTimeRange = 5;
+	google.protobuf.Timestamp CreateTime = 6;
+	google.protobuf.Timestamp UpdateTime = 7;
+	google.protobuf.StringValue UserName = 8;
+	google.protobuf.Int32Value QuantityPerDay = 9;
+	google.protobuf.Int32Value QuantityPerAccount = 10;
+	google.protobuf.Int32Value Status = 11;
+	google.protobuf.StringValue Description = 12;
+	google.protobuf.Int32Value Type = 13;
+	google.protobuf.StringValue Code = 14;
+	double TotalAmount = 15;
+	double AlertAmount = 16;
+	google.protobuf.StringValue CreateBy = 17;
+	google.protobuf.StringValue UpdateBy = 18;
+}
+

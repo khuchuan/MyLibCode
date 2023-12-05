@@ -1,13 +1,58 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <TargetFramework>net6.0</TargetFramework>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Grpc.AspNetCore" Version="2.59.0" />
+    <None Remove="common\customTypes.proto" />
+    <None Remove="Protos\AdminService\paybillConfig.proto" />
+    <None Remove="Protos\AdminService\promotionCampaign.proto" />
+    <None Remove="Protos\AdminService\refundOrder.proto" />
+    <None Remove="Protos\AdminService\requestSupport.proto" />
+    <None Remove="Protos\AdminService\transaction.proto" />
+    <None Remove="Protos\paybill.proto" />
+    <None Remove="Protos\ReportService\auditlog.proto" />
+    <None Remove="Protos\ReportService\promotionCampaign.proto" />
+    <None Remove="Protos\ReportService\refundOrder.proto" />
+    <None Remove="Protos\ReportService\requestSupport.proto" />
+    <None Remove="Protos\ReportService\summary.proto" />
+    <None Remove="Protos\ReportService\transaction.proto" />
+    <None Remove="Protos\SalesService\Config.proto" />
+    <None Remove="Protos\SalesService\mbbank.proto" />
+    <None Remove="Protos\SalesService\sacombank.proto" />
+    <None Remove="Protos\SalesService\sales.proto" />
+    <None Remove="Protos\topup.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.55.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Grpc.HttpApi" Version="0.1.0-alpha.21317.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AuditLib.Grpc\AuditLib.Grpc.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="common\customTypes.proto" />
+    <Protobuf Include="Protos\AdminService\paybillConfig.proto" />
+    <Protobuf Include="Protos\AdminService\promotionCampaign.proto" />
+    <Protobuf Include="Protos\AdminService\refundOrder.proto" />
+    <Protobuf Include="Protos\AdminService\requestSupport.proto" />
+    <Protobuf Include="Protos\AdminService\transaction.proto" />
+    <Protobuf Include="Protos\ReportService\promotionCampaign.proto" />
+    <Protobuf Include="Protos\ReportService\refundOrder.proto" />
+    <Protobuf Include="Protos\ReportService\requestSupport.proto" />
+    <Protobuf Include="Protos\ReportService\summary.proto" />
+    <Protobuf Include="Protos\ReportService\auditlog.proto" />
+    <Protobuf Include="Protos\ReportService\transaction.proto" />
+    <Protobuf Include="Protos\SalesService\config.proto" />
+    <Protobuf Include="Protos\SalesService\sacombank.proto" />
+    <Protobuf Include="Protos\SalesService\mbbank.proto" />
+    <Protobuf Include="Protos\SalesService\sales.proto" />
   </ItemGroup>
 
 </Project>

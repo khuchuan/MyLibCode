@@ -1,14 +1,15 @@
 using AdminApp.Data;
+using AdminApp.Models;
+using AdminApp.Services;
+using Blazored.LocalStorage;
+using Grpc.Proto;
+using Helper;
+using IdentityModel.Client;
+using MapperConfig;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
-using System;
-using IdentityModel.Client;
-using Blazored.LocalStorage;
-using Helper;
-using AdminApp.Services;
-using AdminApp.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +17,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 
 var services = builder.Services;
 
@@ -25,7 +25,7 @@ services.AddMemoryCache();
 services.AddBlazoredLocalStorage();
 services.AddSingleton<ITokenProvider>(sp => new RedisProvider(builder.Configuration["DataProtectRedisDB"]));
 services.AddSingleton<IRefreshTokenRedis, RefreshTokenRedis>();
-//services.AddAutoMapper(typeof(MapperProfile).Assembly);
+services.AddAutoMapper(typeof(MapperProfile).Assembly);
 services.AddHttpContextAccessor();
 services.AddRazorPages();
 services.AddServerSideBlazor();
@@ -44,10 +44,6 @@ services.AddScoped<SignInManager<IdentityUser>, ApplicationSignInManager>();
 
 var provider = services.BuildServiceProvider();
 var refreshTokenRedis = provider.GetService<IRefreshTokenRedis>();
-
-
-
-
 
 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
           .AddCookie(options =>
@@ -91,7 +87,7 @@ services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 
 
 services.AddAuthorization();
-
+services.AddSerilog(builder.Configuration.GetSection(Logger.LogConfig.Name));
 
 var app = builder.Build();
 
@@ -99,10 +95,11 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
+    app.UseHsts();
 }
 
+app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

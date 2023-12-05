@@ -1,0 +1,148 @@
+﻿syntax = "proto3";
+option csharp_namespace = "AdminService";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+package Admin;
+
+service PromotionCampaign {
+  rpc CreatePromotionCampaign(CreateOrUpdatePromotionCampaignRequest) returns (CreateOrUpdatePromotionCampaignResult);
+  rpc UpdatePromotionCampaign(CreateOrUpdatePromotionCampaignRequest) returns (CreateOrUpdatePromotionCampaignResult);
+  rpc DeletePromotionCampaign(DeletePromotionCampaignRequest) returns (DeletePromotionCampaignResult);
+  rpc GetPromotionCampaigns(GetPromotionCampaignsRequest) returns (GetPromotionCampaignsResult);
+  rpc GetPromotionCampaign(GetPromotionCampaignRequest) returns (GetPromotionCampaignResult);
+  rpc GetPromotionConfigs(GetPromotionCampaignRequest) returns (GetPromotionConfigsResult);
+  rpc ValidateConfig(ValidateConfigRequest) returns (ValidateConfigResult);
+  rpc ValiteExistCampaign(ValiteExistCampaignRequest) returns (GetPromotionCampaignsResult);
+  rpc GetConfigByCampaigns(GetConfigByCampaignsRequest) returns (GetConfigByCampaignsResult);
+  
+
+}
+message CreateOrUpdatePromotionCampaignRequest {
+    PromotionCampaignItem PromotionCampaign = 1;
+    repeated PromotionConfigItem PromotionConfig = 2;
+}
+message CreateOrUpdatePromotionCampaignResult {
+    google.protobuf.StringValue ResultCode = 1;
+    google.protobuf.StringValue ResultMessage = 2;
+    PromotionCampaignItem PromotionCampaign = 3;
+    repeated PromotionConfigItem PromotionConfig = 4;
+}
+
+message DeletePromotionCampaignRequest {
+	google.protobuf.Int32Value Id = 1;
+}
+
+message DeletePromotionCampaignResult {
+	google.protobuf.StringValue ResultCode = 1;
+    google.protobuf.StringValue ResultMessage = 2;
+}
+
+message GetPromotionCampaignsRequest {
+  google.protobuf.Timestamp StartDate = 1;
+  google.protobuf.Timestamp EndDate = 2;
+  google.protobuf.StringValue Service = 3;
+  google.protobuf.StringValue Search = 4;
+  google.protobuf.Int32Value Status = 5;
+  google.protobuf.StringValue Partner = 6;
+  google.protobuf.StringValue SortExpr = 7;
+  google.protobuf.StringValue SortDir = 8;
+  int32 PageIndex = 9;
+  int32 PageSize = 10;
+}
+
+message GetPromotionCampaignRequest {
+  google.protobuf.Int32Value Id = 1;
+}
+
+message GetPromotionCampaignResult {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  PromotionCampaignItem Data = 3;
+}
+
+message GetPromotionConfigsResult {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  repeated PromotionConfigItem Data = 3;
+}
+
+message GetPromotionCampaignsResult {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  int32 TotalCount = 3;
+  repeated PromotionCampaignItem Data = 4;
+}
+
+
+message PromotionCampaignItem {
+	google.protobuf.Int32Value Id = 1;
+	google.protobuf.StringValue Name = 2;
+	google.protobuf.Timestamp StartTime = 3;
+	google.protobuf.Timestamp EndTime = 4;
+	google.protobuf.StringValue SubTimeRange = 5;
+	google.protobuf.Timestamp CreateTime = 6;
+	google.protobuf.Timestamp UpdateTime = 7;
+	google.protobuf.StringValue UserName = 8;
+	google.protobuf.Int32Value QuantityPerDay = 9;
+	google.protobuf.Int32Value QuantityPerAccount = 10;
+	google.protobuf.Int32Value Status = 11;
+	google.protobuf.StringValue Description = 12;
+	google.protobuf.Int32Value Type = 13;
+	google.protobuf.StringValue Code = 14;
+	google.protobuf.Int32Value TotalAmount = 15;
+	google.protobuf.Int32Value AlertAmount = 16;
+	google.protobuf.StringValue CreateBy = 17;
+	google.protobuf.StringValue UpdateBy = 18;
+	google.protobuf.Int32Value TotalPerAccount = 19;
+	google.protobuf.Int32Value IsActive = 20;
+	
+}
+
+message PromotionConfigItem {
+	google.protobuf.Int32Value Id = 1;
+	google.protobuf.Int32Value PromotionCampaignId = 2;
+	google.protobuf.StringValue ServiceId = 3;
+	google.protobuf.StringValue ProductId = 4;
+	google.protobuf.StringValue PackId = 5;
+	google.protobuf.Int32Value DiscountType = 6;
+	double DiscountValue = 7;
+	google.protobuf.Int32Value QuantityPerAccount = 8;
+	google.protobuf.Int32Value MinAmount = 9;
+	google.protobuf.Int32Value MaxAmount = 10;
+	google.protobuf.Int32Value Status = 11;
+	google.protobuf.Int32Value TotalPerAccount = 12;
+	google.protobuf.StringValue Description = 13;
+	google.protobuf.Int32Value TotalAmount = 14;
+}
+
+
+message ValidateConfigRequest{
+  google.protobuf.Timestamp		StartDate = 1;
+  google.protobuf.Timestamp		EndDate = 2;
+  google.protobuf.StringValue	SubTimeRange = 3;
+  google.protobuf.StringValue	ProductId = 4;
+  google.protobuf.StringValue	PackId = 5;
+}
+
+message ValiteExistCampaignRequest{
+  google.protobuf.Timestamp		StartDate = 1;
+  google.protobuf.Timestamp		EndDate = 2;
+  google.protobuf.StringValue	SubTimeRange = 3;
+  google.protobuf.Int32Value	CampaignId = 4; 
+}
+
+message ValidateConfigResult {
+  google.protobuf.StringValue   ResultCode = 1;
+  google.protobuf.StringValue   ResultMessage = 2;
+  repeated PromotionConfigItem  Data = 3;
+}
+
+message GetConfigByCampaignsRequest{
+  repeated int32			    CampaignIds = 1;
+}
+
+message GetConfigByCampaignsResult {
+  google.protobuf.StringValue   ResultCode = 1;
+  google.protobuf.StringValue   ResultMessage = 2;
+  repeated PromotionConfigItem  Data = 3;
+}

@@ -1,0 +1,147 @@
+syntax = "proto3";
+import "google/protobuf/wrappers.proto";
+import "common/customTypes.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+option csharp_namespace = "SalesService";
+package PaybillSales;
+
+// The greeting service definition.
+service Config {
+  // Sends a greeting
+  rpc GetPacks (GetPacksRequest) returns (GetPacksResponse){
+   option (google.api.http) = {
+      post: "/GetPacks"
+      body: "*"
+    };
+  };
+  rpc GetComboPacks (GetPacksRequest) returns (GetComboPacksResponse){
+   option (google.api.http) = {
+      post: "/GetComboPacks"
+      body: "*"
+    };
+  };
+
+  rpc GetSoftpinProducts (GetSoftpinProductsRequest) returns (GetSoftpinProductsResponse);
+}
+message GetPackRequest {
+  google.protobuf.StringValue BillingCode = 1;
+  google.protobuf.StringValue ProductCode = 2;
+  google.protobuf.StringValue ServiceId = 3;
+  google.protobuf.StringValue Partner = 4;
+  google.protobuf.StringValue PackCode = 5;
+  google.protobuf.StringValue CustomerId = 6;
+}
+
+// The response message containing the greetings.
+message GetPackResponse {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  google.protobuf.StringValue ServiceId = 3;
+  google.protobuf.StringValue BillingCode = 4;
+  google.protobuf.StringValue ProductCode = 5;
+  Pack Pack = 6;
+}
+
+message GetSoftpinProductsRequest {
+  google.protobuf.StringValue ServiceId = 1;
+  google.protobuf.StringValue Partner = 2;
+  google.protobuf.StringValue CustomerId = 3;
+}
+
+message GetSoftpinProductsResponse {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  google.protobuf.StringValue ServiceId = 3;
+  repeated Product Products = 4;
+}
+
+// The request message containing the user's name.
+message GetPacksRequest {
+  google.protobuf.StringValue BillingCode = 1;
+  google.protobuf.StringValue ProductCode = 2;
+  google.protobuf.StringValue ServiceId = 3;
+  google.protobuf.StringValue Partner = 4;
+  google.protobuf.StringValue CustomerId = 5;
+}
+
+// The response message containing the greetings.
+message GetPacksResponse {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  google.protobuf.StringValue ServiceId = 3;
+  google.protobuf.StringValue BillingCode = 4;
+  google.protobuf.StringValue ProductCode = 5;
+  repeated GroupType Group = 6;
+}
+
+message Product {
+  google.protobuf.StringValue Name = 1;
+  repeated GroupedPack Packs = 2;
+}
+
+message GroupType {
+  google.protobuf.StringValue Name = 1;
+  repeated GroupedPack GroupedPacks = 2;
+}
+
+message GroupedPack {
+  google.protobuf.StringValue Name = 1;
+  google.protobuf.StringValue Type = 2;
+  repeated Pack Packs = 3;
+}
+
+message Pack {
+  google.protobuf.StringValue Code = 1;
+  google.protobuf.Int32Value Amount = 2;
+  google.protobuf.StringValue Data = 3;
+  google.protobuf.Int32Value TimeLimit = 4;
+  google.protobuf.Int32Value ActualAmount = 5;
+  google.protobuf.StringValue DiscountInfo = 6;
+  customTypes.DecimalValue DiscountValue = 7;
+  google.protobuf.Int32Value DiscountType = 8;
+  google.protobuf.Int32Value PromotionCampaignId = 9;
+  google.protobuf.StringValue Description = 10;
+  google.protobuf.Int32Value RefundAmount = 11;
+  
+}
+message GetComboPacksResponse {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  google.protobuf.StringValue ServiceId = 3;
+  google.protobuf.StringValue BillingCode = 4;
+  google.protobuf.StringValue ProductCode = 5;
+  CurrentPack CurrentPack = 6;
+  repeated GroupedComboPack Group = 7;
+}
+
+message GroupedComboPack {
+  google.protobuf.StringValue Name = 1;
+  repeated ComboPack Packs = 2;
+}
+
+message ComboPack {
+  google.protobuf.StringValue Name = 14;
+  google.protobuf.StringValue Code = 1;
+  google.protobuf.Int32Value Amount = 2;
+  google.protobuf.StringValue Data = 3;
+  google.protobuf.Int32Value TimeLimit = 4;
+  google.protobuf.Int32Value ActualAmount = 5;
+  google.protobuf.StringValue DiscountInfo = 6;
+  customTypes.DecimalValue DiscountValue = 7;
+  google.protobuf.Int32Value DiscountType = 8;
+  google.protobuf.Int32Value PromotionCampaignId = 9;
+  google.protobuf.StringValue Description = 10; 
+  google.protobuf.StringValue PackType = 11; 
+  google.protobuf.StringValue IsFavourite = 12; 
+  google.protobuf.StringValue PromotionTimeLimit = 13;  
+  google.protobuf.StringValue Detail = 15;  
+}
+message CurrentPack {
+  google.protobuf.StringValue Name = 1;
+  google.protobuf.StringValue Code = 2; 
+  google.protobuf.Timestamp PackExpiry = 3;
+  google.protobuf.Int64Value RemainData = 4; 
+  google.protobuf.Int64Value TotalData = 5; 
+  google.protobuf.StringValue Description = 6;
+}

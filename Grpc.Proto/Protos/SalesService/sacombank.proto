@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option csharp_namespace = "SalesService";
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+package PaybillSales;
+
+// The greeting service definition.
+service Sacombank {
+  rpc CreateSession (SacombankMessage) returns (SacombankMessage){
+    option (google.api.http) = {
+      post: "/SACOMBANK/CreateSession"
+      body: "*"
+    };
+  };
+  rpc ProcessTransaction (SacombankMessage) returns (SacombankMessage){
+   option (google.api.http) = {
+      post: "/SACOMBANK/ProcessTransaction"
+      body: "*"
+    };
+  };
+}
+message SacombankMessage {
+  google.protobuf.StringValue Data = 1;
+  google.protobuf.StringValue Signature = 2;
+}
+
+message SacombankCreateTransactionMessage{
+  google.protobuf.StringValue Data = 1;
+  google.protobuf.StringValue Checksum = 2;
+  google.protobuf.StringValue Url = 3;
+}

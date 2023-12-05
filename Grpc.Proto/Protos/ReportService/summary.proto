@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+option csharp_namespace = "ReportService";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+package Report;
+
+service Summary {
+  rpc GetReportSummary (GetReportSummaryRequest) returns (GetReportSummaryResult);
+  rpc GetReportRevenue (GetReportRevenueRequest) returns (GetReportRevenueResult);
+  rpc GetReportSummaryProductByDay (GetReportSummaryRequest) returns (GetReportSummaryProductByDayResult);
+}
+message GetReportSummaryRequest {
+  google.protobuf.Timestamp StartDate = 1;
+  google.protobuf.Timestamp EndDate = 2;
+  google.protobuf.StringValue Partner = 3;
+  google.protobuf.StringValue Service = 4;
+  google.protobuf.StringValue Product = 5;
+  google.protobuf.Int32Value Status = 6;
+  google.protobuf.StringValue SortExpr = 7;
+  google.protobuf.StringValue SortDir = 8;
+  int32 PageIndex = 9;
+  int32 PageSize = 10;
+  google.protobuf.StringValue Report = 11;
+}
+
+message GetReportRevenueRequest {
+  google.protobuf.Timestamp StartDate = 1;
+  google.protobuf.Timestamp EndDate = 2;
+  google.protobuf.StringValue Service = 3;
+  google.protobuf.StringValue Partner = 4;
+  google.protobuf.StringValue Product = 5;
+  google.protobuf.Int32Value Status = 6;
+}
+
+message GetReportSummaryResult {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  int32 TotalCount = 3;
+  repeated ReportSummaryItem Data = 4;
+}
+
+message GetReportRevenueResult {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  repeated ReportRevenueItem Data = 3;
+}
+
+message ReportSummaryItem {
+	google.protobuf.Timestamp Day = 1;
+	google.protobuf.StringValue Partner = 2;
+	google.protobuf.StringValue Service = 3;
+	google.protobuf.StringValue Product = 4;
+	double Quantity = 5;
+	double Amount = 6;
+	int32 TotalRows = 7;
+}
+
+
+message ReportRevenueItem {
+	google.protobuf.StringValue Service = 1;
+	google.protobuf.StringValue Product = 2;
+	float Statistic = 3;
+	google.protobuf.StringValue StatisticString = 4;
+	float StatisticActualAmount = 5;
+	google.protobuf.StringValue StatisticActualAmountString = 6;
+	float Ratio = 7;
+}
+
+message GetReportSummaryProductByDayResult{
+   google.protobuf.StringValue ResultCode = 1;
+   google.protobuf.StringValue ResultMessage = 2;
+   google.protobuf.StringValue Data = 3;
+}

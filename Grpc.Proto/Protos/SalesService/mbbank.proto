@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+option csharp_namespace = "SalesService";
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+package PaybillSales;
+
+// The greeting service definition.
+service MBBank {
+  // Sends a greeting
+  rpc ProcessTransaction (MBBankProcessTransactionRequest) returns (MBBankProcessTransactionResponse){
+   option (google.api.http) = {
+      post: "/MBBANK/ProcessTransaction"
+      body: "*"
+    };
+  };
+  rpc RefundCallback (MBBankRefundCallbackRequest) returns (MBBankProcessTransactionResponse){
+   option (google.api.http) = {
+      post: "/MBBANK/RefundCallback"
+      body: "*"
+    };
+  };
+}
+message MBBankRefundCallbackRequest {
+  google.protobuf.StringValue id = 1;
+  google.protobuf.StringValue transactionId  = 2;
+  google.protobuf.Int32Value amount = 3;
+  google.protobuf.StringValue status = 4;
+  google.protobuf.StringValue checksum = 6;
+  google.protobuf.StringValue description = 7;
+  google.protobuf.StringValue createdTime = 8;
+  google.protobuf.StringValue refundedTime = 9;
+  google.protobuf.StringValue errorCode = 10;
+}
+message MBBankProcessTransactionRequest {
+  google.protobuf.StringValue id = 1;
+  Merchant merchant = 2;
+  google.protobuf.StringValue cif = 3;
+  google.protobuf.Int32Value amount = 4;
+  google.protobuf.StringValue description = 5;
+  Type type = 6;
+  google.protobuf.StringValue successMessage = 7;
+  google.protobuf.StringValue metadata = 8;
+  google.protobuf.StringValue createdTime = 9;
+  google.protobuf.StringValue paidTime = 10;
+  google.protobuf.StringValue status = 11;
+  google.protobuf.StringValue fundingSource = 12;
+  google.protobuf.StringValue checksum = 13;
+  google.protobuf.StringValue cardType = 15;
+}
+message Merchant {
+  google.protobuf.StringValue code = 1;
+  google.protobuf.StringValue name = 2;
+}
+message Type {
+  google.protobuf.StringValue code = 1;
+  google.protobuf.StringValue name = 2;
+  google.protobuf.BoolValue allowCard = 3;
+}
+message MBBankProcessTransactionResponse {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+}

@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option csharp_namespace = "AdminService";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+package Admin;
+
+service RequestSupportAdmin {  
+  rpc UpdateStatusRequestSupport(RequestSupportItem) returns (UpdateStatusRequestSupportResponse);
+}
+
+
+message UpdateStatusRequestSupportResponse{
+	string ResultCode = 1;
+	string ResultMessage = 2;
+	RequestSupportItem Data = 3;
+}
+
+message RequestSupportItem {
+  google.protobuf.Int32Value Id = 1;
+  google.protobuf.StringValue TransactionId = 2;
+  google.protobuf.StringValue Message = 3;
+  google.protobuf.Int32Value Status = 4;
+  google.protobuf.StringValue Note = 5;
+  google.protobuf.StringValue Attachment = 6;
+  bool SendMailAdmin = 7;
+  google.protobuf.Timestamp CreateTime = 8;
+  google.protobuf.Timestamp UpdateTime = 9;
+  google.protobuf.StringValue UpdateBy = 10;
+  google.protobuf.StringValue PhoneNumber = 11;
+}

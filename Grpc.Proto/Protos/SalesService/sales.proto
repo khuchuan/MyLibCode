@@ -1,0 +1,314 @@
+syntax = "proto3";
+
+option csharp_namespace = "SalesService";
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
+package PaybillSales;
+
+// The greeting service definition.
+service Sales {
+  // Sends a greeting
+  rpc VerifyCustomer (VerifyCustomerRequest) returns (VerifyCustomerResponse);
+  rpc VerifyCustomerV2 (VerifyCustomerV2Request) returns (VerifyCustomerV2Response);
+  rpc CreateTransactionV2 (CreateTransactionV2Request) returns (CreateTransactionV2Response);
+  rpc CreateTransaction (CreateTransactionRequest) returns (CreateTransactionResponse);
+  rpc CreateRefundOrder (CreateRefundOrderRequest) returns (CreateRefundOrderResponse);
+  rpc GetTransactions (GetTransactionsRequest) returns (GetTransactionsResponse);
+  rpc GetTransaction (GetTransactionRequest) returns (GetTransactionResponse);
+  rpc GetTransactionFromProvider (GetTransactionRequest) returns (GetTransactionResponse);
+  rpc CreateRequestSupport (CreateRequestSupportRequest) returns (CreateRequestSupportResponse);
+  rpc GetRequestSupports (RequestSupportItem) returns (GetRequestSupportsResponse);
+  rpc GetRequestSupportByTransaction (GetRequestSupportByTransactionRequest) returns (GetRequestSupportByTransactionResponse);
+  rpc CheckRefund (CheckRefundRequest) returns (CheckRefundResponse);
+  rpc GetSoftpinTransaction (GetTransactionRequest) returns (SoftpinTransactionResponse);
+  rpc SendMail (GetTransactionRequest) returns (SendMailResponse);
+  rpc SendMailCallback (SendMailCallbackRequest) returns (SendMailCallbackResponse){
+     option (google.api.http) = {
+        post: "/sendmailcallback",
+		body: "*"
+     };
+  };
+}
+message VerifyCustomerV2Request {
+  google.protobuf.StringValue SessionId = 1;
+  google.protobuf.StringValue Partner = 2;
+}
+message VerifyCustomerV2Response {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  google.protobuf.StringValue Partner = 3;
+  google.protobuf.StringValue AccessToken = 4;
+  google.protobuf.StringValue CustomerId = 5;
+  google.protobuf.StringValue CustomerName = 6;
+  google.protobuf.StringValue CustomerMobile = 7;
+  google.protobuf.StringValue CustomerEmail = 8;
+  google.protobuf.Int32Value ExpiresInMinutes = 9;
+  google.protobuf.Timestamp CustomerBirthday = 10;
+  google.protobuf.StringValue CustomerIdCard = 11;
+}
+message CreateTransactionV2Request {
+  google.protobuf.StringValue Partner = 1;
+  google.protobuf.StringValue SessionId = 2;
+  google.protobuf.Int32Value Amount = 3;
+  google.protobuf.StringValue ServiceId = 4;
+  google.protobuf.StringValue BillingCode = 5;
+  google.protobuf.StringValue ProductCode = 6;
+  google.protobuf.StringValue TrackingId = 7;
+  google.protobuf.StringValue PackCode = 8;
+  google.protobuf.Int32Value Quantity = 9;
+}
+
+message CreateTransactionV2Response {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  google.protobuf.StringValue TransactionId = 3;
+  google.protobuf.Int32Value Amount = 4;
+  google.protobuf.Int32Value ActualAmount = 5;
+  google.protobuf.Timestamp TransactionCreateTime = 6;
+  google.protobuf.StringValue Description = 7;
+  google.protobuf.StringValue CustomerId = 8;
+  google.protobuf.Any Data = 9;
+}
+message GetTransactionRequest {
+  google.protobuf.StringValue Partner = 1;
+  google.protobuf.StringValue CustomerId = 2;
+  google.protobuf.StringValue TransactionId = 3;
+}
+message GetTransactionResponse {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  TransactionDetail TransactionDetail = 3;
+}
+message TransactionDetail {
+  google.protobuf.StringValue Id = 1;
+  google.protobuf.Int32Value ActualAmount = 2;
+  google.protobuf.StringValue Partner = 3;
+  google.protobuf.StringValue ServiceId = 4;
+  google.protobuf.StringValue ProductCode = 5;
+  google.protobuf.Int32Value Status = 6;
+  google.protobuf.Timestamp CreatedTime = 7;
+  google.protobuf.StringValue PackCode = 8;
+  google.protobuf.StringValue BillingCode = 9;
+  google.protobuf.StringValue DiscountInfo = 10;
+  google.protobuf.Int32Value Amount = 11;
+  google.protobuf.StringValue Extend1 = 12;
+  google.protobuf.StringValue Extend2 = 13;
+  google.protobuf.StringValue ProductName = 14;
+  google.protobuf.StringValue FundingSource = 15;
+  google.protobuf.StringValue TrackingId = 16;
+  google.protobuf.Int32Value Quantity = 17;
+}
+
+message GetTransactionsRequest {
+  google.protobuf.StringValue BeginDate = 1;
+  google.protobuf.StringValue EndDate = 2;
+  google.protobuf.Int32Value Page = 3;
+  google.protobuf.Int32Value Size = 4;
+  google.protobuf.StringValue Partner = 5;
+  google.protobuf.StringValue CustomerId = 6;
+  google.protobuf.StringValue ServiceId = 7;
+}
+message GetTransactionsResponse {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  repeated TransactionInfo Transactions = 3;
+  google.protobuf.Int64Value TotalRecord = 4;
+}
+message TransactionInfo {
+  google.protobuf.StringValue Id = 1;
+  google.protobuf.Int32Value ActualAmount = 2;
+  google.protobuf.StringValue Partner = 3;
+  google.protobuf.StringValue ServiceId = 4;
+  google.protobuf.StringValue ProductCode = 5;
+  google.protobuf.Int32Value Status = 6;
+  google.protobuf.Timestamp CreatedTime = 7;
+  google.protobuf.StringValue ProductName = 8;
+  google.protobuf.Int32Value TotalRows = 9;
+  google.protobuf.StringValue BillingCode = 10;
+}
+message VerifyCustomerRequest {
+  google.protobuf.StringValue Token = 1;
+  google.protobuf.StringValue Partner = 2;
+}
+
+message VerifyCustomerResponse {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  google.protobuf.StringValue Partner = 3;
+  CustomerInfo CustomerInfo = 4;
+  google.protobuf.StringValue Token = 5;
+}
+
+message CustomerInfo {
+  google.protobuf.StringValue Id = 1;
+  google.protobuf.StringValue Name = 2;
+  google.protobuf.StringValue Mobile = 3;
+  google.protobuf.StringValue Email = 4;
+  google.protobuf.Timestamp Birthday = 5;
+  google.protobuf.StringValue IdCard = 6;
+}
+
+message CreateTransactionRequest {
+  google.protobuf.StringValue Partner = 1;
+  google.protobuf.StringValue CustomerId = 2;
+  google.protobuf.Int32Value Amount = 3;
+  google.protobuf.StringValue ServiceId = 4;
+  google.protobuf.StringValue BillingCode = 5;
+  google.protobuf.StringValue ProductCode = 6;
+  google.protobuf.StringValue TrackingId = 7;
+  google.protobuf.StringValue PackCode = 8;
+  google.protobuf.Int32Value Quantity = 9;
+}
+
+message CreateTransactionResponse {
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  google.protobuf.StringValue MerchantCode = 3;
+  google.protobuf.StringValue MerchantName = 4;
+  google.protobuf.StringValue TypeCode = 5;
+  google.protobuf.StringValue TypeName = 6;
+  google.protobuf.BoolValue TypeAllowCard = 7;
+  google.protobuf.StringValue TransactionId = 8;
+  google.protobuf.Int32Value Amount = 9;
+  google.protobuf.Int32Value ActualAmount = 10;
+  google.protobuf.StringValue Description = 11;
+  google.protobuf.StringValue SuccessMessage = 12;
+  google.protobuf.Timestamp TransactionCreateTime = 13;
+  google.protobuf.StringValue FundingSource = 14;
+}
+message CreateRequestSupportRequest{
+  google.protobuf.StringValue Customer = 1;
+  google.protobuf.StringValue Partner = 2;
+  google.protobuf.StringValue TransactionId = 3;
+  google.protobuf.StringValue PhoneNumber = 4;
+  google.protobuf.StringValue Message = 5;
+  google.protobuf.StringValue Domain = 6;
+  
+}
+
+
+message CreateRequestSupportResponse{
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  RequestSupportItem Data = 3;
+}
+
+message GetRequestSupportsResponse{
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  repeated RequestSupportItem Data = 3;
+}
+
+message GetRequestSupportByTransactionRequest{
+	google.protobuf.StringValue TransactionId = 1;
+	google.protobuf.StringValue Customer = 2;
+	google.protobuf.StringValue Partner = 3;
+}
+message GetRequestSupportByTransactionResponse{
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  RequestSupportItem RequestSupport = 3;
+  TransactionItem Transaction = 4;
+}
+
+
+message TransactionItem {
+	google.protobuf.StringValue Id = 1;
+	google.protobuf.StringValue TrackingId = 2;
+	google.protobuf.Timestamp CreateTime = 3;
+	google.protobuf.StringValue ClientIp = 4;
+	google.protobuf.StringValue BillingCode = 5;
+	google.protobuf.StringValue ProductId = 6;
+	google.protobuf.StringValue PackId = 7;
+	double Amount = 8;
+	double ActualAmount = 9;
+	google.protobuf.StringValue Username = 10;
+	google.protobuf.StringValue DiscountRate = 11;
+	google.protobuf.StringValue ServiceId = 12;
+	google.protobuf.StringValue CustomerId = 13;
+	google.protobuf.StringValue Description = 14;
+	google.protobuf.StringValue Partner = 15;
+	int32 ResultStatus = 16;
+	google.protobuf.StringValue ResultCode = 17;
+	google.protobuf.Timestamp PayTime = 18;
+	google.protobuf.Timestamp ResponseTime = 19;
+	google.protobuf.StringValue PartnerTransactionId = 20;
+	google.protobuf.Timestamp PartnerCreateTime = 21;
+	google.protobuf.StringValue FundingSource = 22;
+	google.protobuf.StringValue Extend1 = 23;
+	google.protobuf.StringValue Extend2 = 24;
+	int32 Quantity = 25;
+}
+
+
+message RequestSupportItem {
+  google.protobuf.Int32Value Id = 1;
+  google.protobuf.StringValue TransactionId = 2;
+  google.protobuf.StringValue Message = 3;
+  google.protobuf.Int32Value Status = 4;
+  google.protobuf.StringValue Note = 5;
+  google.protobuf.StringValue Attachment = 6;
+  google.protobuf.Int32Value SendMailAdmin = 7;
+  google.protobuf.Timestamp CreateTime = 8;
+  google.protobuf.Timestamp UpdateTime = 9;
+  google.protobuf.StringValue UpdateBy = 10;
+  google.protobuf.StringValue PhoneNumber = 11;
+}
+
+message CreateRefundOrderRequest {
+  google.protobuf.StringValue Partner = 1;
+  google.protobuf.StringValue UserName = 2;
+  google.protobuf.Int32Value ActualAmount = 3;
+  google.protobuf.StringValue TransactionId = 4;
+  google.protobuf.StringValue TrackingId = 5;
+}
+
+message CreateRefundOrderResponse {
+  google.protobuf.Int32Value ResultStatus = 1;
+  google.protobuf.StringValue ResultCode = 2;
+  google.protobuf.StringValue ResultMessage = 3;
+  google.protobuf.StringValue PartnerRefundId = 4;
+  google.protobuf.Timestamp PartnerCreateTime = 5;
+}
+
+message CheckRefundRequest {
+  google.protobuf.StringValue RefundOrderId = 1;
+  google.protobuf.StringValue Partner = 2;
+}
+
+message CheckRefundResponse {
+  google.protobuf.StringValue Result = 1;
+}
+
+message SoftpinTransactionResponse{
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+  google.protobuf.StringValue TransactionId = 3;
+  repeated SoftpinItem Data = 4;
+}
+message SoftpinItem{
+  google.protobuf.StringValue PinCode = 1;
+  google.protobuf.StringValue Serial = 2;
+  google.protobuf.StringValue ExpiryDate = 3;
+}
+
+ 
+message SendMailResponse{
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+}
+
+message SendMailCallbackResponse
+{
+  google.protobuf.StringValue ResultCode = 1;
+  google.protobuf.StringValue ResultMessage = 2;
+}
+
+message SendMailCallbackRequest
+{
+  google.protobuf.StringValue TrackingId = 1;
+  google.protobuf.Int32Value Status = 2;
+  google.protobuf.StringValue Signature = 3;
+}
