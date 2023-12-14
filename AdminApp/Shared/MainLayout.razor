@@ -1,19 +1,145 @@
-﻿@inherits LayoutComponentBase
+﻿@using AdminApp.Services
+@using AntDesign
+@using AdminApp.Components;
 
-<PageTitle>AdminApp</PageTitle>
+@inherits LayoutComponentBase
+@inject NavigationManager _navigation
+@inject BrowserService _browserService
+@inject IAppStateService _iAppStateService
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<script type="text/javascript">
+    console.log('Goi va MainLayout - start')
+</script>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+<AuthorizeView>
+    
+    <NotAuthorized>       
+        <script type="text/javascript">
+            console.log('MainLayout NotAuthorized : start')
+        </script>
+        <Logout CurrentPath="@_navigation.ToBaseRelativePath(_navigation.Uri)" />
+    </NotAuthorized>
+</AuthorizeView>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+<LoadingAnimation Loading="_iAppStateService.IsLoading" />
+
+
+@code {
+    // Collapsed side bar
+    bool collapsed;
+    string collapsedPadding = "padding-left: 255px";
+    string collapsedHeaderWidth = "width: calc(100% - 255px)";
+    void toggle()
+    {
+        collapsed = !collapsed;
+        if (collapsed)
+        {
+            collapsedPadding = "padding-left: 80px";
+            collapsedHeaderWidth = "width: calc(100% - 80px)";
+        }
+        else
+        {
+            collapsedPadding = "padding-left: 255px";
+            collapsedHeaderWidth = "width: calc(100% - 255px)";
+        }
+    }
+    void OnCollapse(bool isCollapsed)
+    {
+        Console.WriteLine($"Collapsed: {isCollapsed}");
+    }
+    private string RenderCollapsedPadding()
+    {
+        if (Width > 768)
+        {
+            return collapsedPadding;
+        }
+        else
+        {
+            return "";
+        }
+    }
+    private string RenderCollapsedHeaderWidth()
+    {
+        if (Width > 768)
+        {
+            return collapsedHeaderWidth;
+        }
+        else
+        {
+            return "";
+        }
+    }
+    private string RenderHeaderClass()
+    {
+        if (Width > 768)
+        {
+            return "site-layout-header";
+        }
+        else
+        {
+            return "site-layout-header-mobile";
+        }
+    }
+    // Get window width
+    public int Width { get; set; } = 0;
+    async Task GetDimensions()
+    {
+        var dimension = await _browserService.GetDimensionsAsync();
+        Width = dimension.Width;
+        StateHasChanged();
+    }
+
+    // Drawer left
+    bool visibleLeftDrawer = false;
+
+    void openLeft()
+    {
+        this.visibleLeftDrawer = true;
+    }
+
+    void closeLeft()
+    {
+        this.visibleLeftDrawer = false;
+    }
+    // Drawer right
+    bool visibleRightDrawer = false;
+
+    void openRight()
+    {
+        this.visibleRightDrawer = true;
+    }
+
+    void closeRight()
+    {
+        this.visibleRightDrawer = false;
+    }
+    // AppState
+    private void AppStateChanged()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            //await base.OnAfterRenderAsync(firstRender);
+            await GetDimensions();
+        }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        LocaleProvider.SetLocale("vi-VN");
+        _iAppStateService.OnChangeAppLoading += AppStateChanged;
+    }
+    public void Dispose()
+    {
+        _iAppStateService.OnChangeAppLoading -= AppStateChanged;
+    }
+}
+
+<script type="text/javascript">
+    console.log('Goi va MainLay out - end')
+</script>

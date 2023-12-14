@@ -32,7 +32,7 @@ namespace AdminApp.Areas.Identity.Pages.Account
         }
 
         [BindProperty]
-        public InputModel Input2 { get; set; }
+        public InputModel Input { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
@@ -43,13 +43,13 @@ namespace AdminApp.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required(ErrorMessage = "Vui lòng nhập tài khoản 123")]
+            [Required(ErrorMessage = "Vui lòng nhập tài khoản")]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = "Vui lòng nhập mật khẩu xyz")]
+            [Required(ErrorMessage = "Vui lòng nhập mật khẩu")]
             public string Password { get; set; }
 
-            [Display(Name = "Ghi nhớ acd")]
+            [Display(Name = "Ghi nhớ")]
             public bool RememberMe { get; set; }
         }
 
@@ -83,21 +83,21 @@ namespace AdminApp.Areas.Identity.Pages.Account
                 HttpContext.Response.Cookies.Delete("password");
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input2.Email, Input2.Password, Input2.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    if (Input2.RememberMe)
+                    if (Input.RememberMe)
                     {
-                        HttpContext.Response.Cookies.Append("remember", Input2.RememberMe.ToString());
-                        HttpContext.Response.Cookies.Append("username", Input2.Email);
-                        HttpContext.Response.Cookies.Append("password", Input2.Password);
+                        HttpContext.Response.Cookies.Append("remember", Input.RememberMe.ToString());
+                        HttpContext.Response.Cookies.Append("username", Input.Email);
+                        HttpContext.Response.Cookies.Append("password", Input.Password);
                     }
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input2.RememberMe });
+                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }
                 if (result.IsLockedOut)
                 {
@@ -109,11 +109,6 @@ namespace AdminApp.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, "Sai tên đăng nhập hoặc mật khẩu");
                     return Page();
                 }
-            }
-            else
-            {
-                var errors = ModelState.SelectMany(x => x.Value.Errors.Select(z => z.Exception));
-                // Breakpoint, Log or examine the list with Exceptions.
             }
 
             // If we got this far, something failed, redisplay form

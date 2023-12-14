@@ -1,0 +1,117 @@
+﻿@namespace AdminApp.Components
+
+<script type="text/javascript">
+    console.log('Goi vao Component - MainMenu - start')
+</script>
+
+<Menu Theme="ThemeStyle" Mode="MenuMode.Inline" Class="ct-main-menu">
+    <MenuItem RouterLink="/" RouterMatch="NavLinkMatch.All" Class="main-menu-item" Key="/" Style="display: none">
+        <FlexBox>
+            <Icon Type="home" Theme="outline" Style="font-size:18px" />
+            <span>Trang chủ</span>
+        </FlexBox>
+    </MenuItem>
+
+    @if (currentUser.IsInRole(Roles.Iris.Paybill.Admin) || currentUser.IsInRole(Roles.Iris.Paybill.ModuleTransaction) || currentUser.IsInRole(Roles.Iris.Paybill.ListTransaction))
+    {
+        <MenuItem RouterLink="/Transaction/History" RouterMatch="NavLinkMatch.All" Class="main-menu-item" Key="/Transaction/History">
+            <FlexBox>
+                <Icon Type="history" Theme="outline" Style="font-size:18px" />
+                <span>Lịch sử giao dịch</span>
+            </FlexBox>
+        </MenuItem>
+    }
+
+    @if (currentUser.IsInRole(Roles.Iris.Paybill.Admin) || currentUser.IsInRole(Roles.Iris.Paybill.ModuleTransaction) || currentUser.IsInRole(Roles.Iris.Paybill.ListTransactionPending))
+    {
+        <MenuItem RouterLink="/TransactionPending/History" RouterMatch="NavLinkMatch.All" Class="main-menu-item" Key="/TransactionPending/History">
+            <FlexBox>
+                <Icon Type="warning" Theme="outline" Style="font-size:18px" />
+                <span>
+                    Giao dịch cần xử lý
+                    @if (NumberTransactionPending != null && NumberTransactionPending > 0)
+                    {
+                        <Tag Style="margin-left: 8px" Color="orange-inverse">@NumberTransactionPending</Tag>
+                    }
+                    else if (NumberTransactionPending == null)
+                    {
+                        <Spin Size="small" Class="pending-transaction-count" Style="margin-left: 8px" />
+                    }
+                </span>
+            </FlexBox>
+        </MenuItem>
+    }
+
+    @if (currentUser.IsInRole(Roles.Iris.Paybill.Admin) || currentUser.IsInRole(Roles.Iris.Paybill.ModuleRefundOrder) || currentUser.IsInRole(Roles.Iris.Paybill.ListRefundOrder))
+    {
+        <MenuItem RouterLink="/RefundOrder/List" RouterMatch="NavLinkMatch.All" Class="main-menu-item" Key="/RefundOrder/List">
+            <FlexBox>
+                <Icon Type="frown" Theme="outline" Style="font-size:18px" />
+                <span>Giao dịch hoàn tiền</span>
+            </FlexBox>
+        </MenuItem>
+    }
+
+
+    @if (currentUser.IsInRole(Roles.Iris.Paybill.Admin) || currentUser.IsInRole(Roles.Iris.Paybill.ModuleReport) || currentUser.IsInRole(Roles.Iris.Paybill.ReportSummary))
+    {
+        <MenuItem RouterLink="/Report/Summary" RouterMatch="NavLinkMatch.All" Class="main-menu-item" Key="/Report/Summary">
+            <FlexBox>
+                <Icon Type="bar-chart" Theme="outline" Style="font-size:18px" />
+                <span>Báo cáo tổng hợp</span>
+            </FlexBox>
+        </MenuItem>
+    }
+
+    @if (currentUser.IsInRole(Roles.Iris.Paybill.Admin) || currentUser.IsInRole(Roles.Iris.Paybill.ModuleReport) || currentUser.IsInRole(Roles.Iris.Paybill.ReportRevenue))
+    {
+        <MenuItem RouterLink="/Report/Revenue" RouterMatch="NavLinkMatch.All" Class="main-menu-item" Key="/Report/Revenue">
+            <Icon Type="pie-chart" Theme="outline" Style="font-size:18px" />
+            <span>Báo cáo doanh thu</span>
+        </MenuItem>
+    }
+
+    <MenuItem RouterLink="/AuditLog" RouterMatch="NavLinkMatch.All" Class="main-menu-item" Key="/AuditLog">
+        <FlexBox>
+            <Icon Type="database" Theme="outline" Style="font-size:18px" />
+            <span>Lịch sử hệ thống</span>
+        </FlexBox>
+    </MenuItem>
+
+    @if (currentUser.IsInRole(Roles.Iris.Paybill.Admin) || currentUser.IsInRole(Roles.Iris.Paybill.ModuleRequestSupport) || currentUser.IsInRole(Roles.Iris.Paybill.ListRequestSupport))
+    {
+        <MenuItem RouterLink="/RequestSupport" RouterMatch="NavLinkMatch.All" Class="main-menu-item" Key="/RequestSupport">
+            <FlexBox>
+                <Icon Type="question-circle" Theme="outline" Style="font-size:18px" />
+                <span>
+                    Yêu cầu hỗ trợ
+                    @if (NumberRequestSupportPending != null && NumberRequestSupportPending > 0)
+                    {
+                        <Tag Style="margin-left: 8px" Color="orange-inverse">@NumberRequestSupportPending</Tag>
+                    }
+                    else if (NumberRequestSupportPending == null)
+                    {
+                        <Spin Size="small" Class="pending-transaction-count" Style="margin-left: 8px" />
+                    }
+                </span>
+            </FlexBox>
+        </MenuItem>
+    }
+
+    @if (currentUser.IsInRole(Roles.Iris.Paybill.Admin) || currentUser.IsInRole(Roles.Iris.Paybill.ModulePromotionCampaign) || currentUser.IsInRole(Roles.Iris.Paybill.ListPromotionCampaign))
+    {
+        <MenuItem RouterLink="/Campaign/List" RouterMatch="NavLinkMatch.All" Class="main-menu-item" Key="/Campaign/List">
+            <FlexBox>
+                <Icon Type="appstore" Theme="outline" Style="font-size:18px" />
+                <span>Chương trình khuyến mại</span>
+            </FlexBox>
+        </MenuItem>
+    }
+
+</Menu>
+
+<script type="text/javascript">
+    console.log('Goi vao Component - MainMenu - End')
+</script>
+
+@using Helper;

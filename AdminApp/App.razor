@@ -1,12 +1,24 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-    </Found>
-    <NotFound>
-        <PageTitle>Not found</PageTitle>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
-        </LayoutView>
-    </NotFound>
-</Router>
+﻿@using AdminApp.Shared;
+@using System;
+@using AntDesign;
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>                  
+                    <div class="site-layout-body">
+                        <Result Status="403" Title="403" SubTitle="Quyền truy cập bị từ chối"></Result>
+                    </div>                    
+                </NotAuthorized>
+            </AuthorizeRouteView>
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(MainLayout)">                
+                <div class="site-layout-body">
+                    <Result Status="404" Title="404" SubTitle="Trang không tồn tại"></Result>
+                </div>
+            </LayoutView>
+        </NotFound>
+    </Router>
+    <AntContainer />
+</CascadingAuthenticationState>    

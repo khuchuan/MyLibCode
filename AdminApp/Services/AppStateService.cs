@@ -11,6 +11,7 @@ namespace AdminApp.Services
         string CurrentPage { get; }
         event Action OnChangeAppLoading;
     }
+
     public class AppStateService : IAppStateService
     {
         public AppState appState = new AppState();
@@ -49,4 +50,5 @@ namespace AdminApp.Services
         }
 
     }
+
 }
