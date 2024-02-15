@@ -10,3 +10,15 @@ D:\Learning\MyLibCode\DocumentDetail\obj\Debug\net7.0\DocumentDetail.dll
 D:\Learning\MyLibCode\DocumentDetail\obj\Debug\net7.0\refint\DocumentDetail.dll
 D:\Learning\MyLibCode\DocumentDetail\obj\Debug\net7.0\DocumentDetail.pdb
 D:\Learning\MyLibCode\DocumentDetail\obj\Debug\net7.0\ref\DocumentDetail.dll
+D:\CodeTest\MyLibCode\DocumentDetail\bin\Debug\net7.0\DocumentDetail.deps.json
+D:\CodeTest\MyLibCode\DocumentDetail\bin\Debug\net7.0\DocumentDetail.dll
+D:\CodeTest\MyLibCode\DocumentDetail\bin\Debug\net7.0\DocumentDetail.pdb
+D:\CodeTest\MyLibCode\DocumentDetail\obj\Debug\net7.0\DocumentDetail.GeneratedMSBuildEditorConfig.editorconfig
+D:\CodeTest\MyLibCode\DocumentDetail\obj\Debug\net7.0\DocumentDetail.AssemblyInfoInputs.cache
+D:\CodeTest\MyLibCode\DocumentDetail\obj\Debug\net7.0\DocumentDetail.AssemblyInfo.cs
+D:\CodeTest\MyLibCode\DocumentDetail\obj\Debug\net7.0\DocumentDetail.csproj.CoreCompileInputs.cache
+D:\CodeTest\MyLibCode\DocumentDetail\obj\Debug\net7.0\DocumentDetail.sourcelink.json
+D:\CodeTest\MyLibCode\DocumentDetail\obj\Debug\net7.0\DocumentDetail.dll
+D:\CodeTest\MyLibCode\DocumentDetail\obj\Debug\net7.0\refint\DocumentDetail.dll
+D:\CodeTest\MyLibCode\DocumentDetail\obj\Debug\net7.0\DocumentDetail.pdb
+D:\CodeTest\MyLibCode\DocumentDetail\obj\Debug\net7.0\ref\DocumentDetail.dll

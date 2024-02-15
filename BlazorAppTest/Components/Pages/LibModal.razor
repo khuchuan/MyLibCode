@@ -1,0 +1,39 @@
+﻿
+@* <Modal Title="BasicModal" @bind-Visible="@Show" OnOk="@HandleOk" OnCancel="@HandleCancel">
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+</Modal> *@
+
+
+<Modal Visible="@Show" OnOk="@HandleOk" Title="Hello" OnCancel="@HandleCancel">
+    <ChildContent>
+        This is a modal dialog.
+    </ChildContent>
+    <CloseIcon>
+        <Icon Type="close" Theme="outline" />
+    </CloseIcon>
+</Modal>
+
+
+@code
+{
+    public bool Show { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Show = true;
+    }
+
+    public void HandleOk(MouseEventArgs e)
+    {
+        Show = false;
+        StateHasChanged();
+    }
+
+    public void HandleCancel(MouseEventArgs e)
+    {        
+        Show = false;
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,281 @@
+﻿@page "/listproduct"
+@using BlazorAppTest.DTOs
+@using BlazorAppTest.Service
+
+
+<PageTitle>@_title</PageTitle>
+    <div class="site-layout-body">
+        <div class="slb-white-box-shadow">
+            <Card Size="default">
+                <TitleTemplate>
+                    <Icon Type="product" Theme="outline" /> Danh sách sản phẩm
+                </TitleTemplate>
+                <Extra>
+                    <Button Type="@ButtonType.Primary" Icon="plus" >
+                        Thêm mới
+                    </Button>
+                </Extra>
+                <Body>
+
+
+                    <Form ValidateOnChange="true"
+                          Model="_request"
+                          Size="default"
+                          LabelAlign="AntLabelAlignType.Right"
+                          LabelCol=@(new ColLayoutParam { Xl = 8, Lg = 8, Md = 4, Sm = 4, Xs = 4 })
+                          WrapperCol=@(new ColLayoutParam { Xl = 16, Lg = 16, Md = 20, Sm = 20, Xs = 20 })
+                          OnFinish="OnFinish"
+                          Layout="vertical"
+                          ValidateMode=@FormValidateMode.Complex
+                          RequiredMark=@ChosenRequiredMark>
+                        <Row Gutter="16">
+                            <AntDesign.Col Xs="24" Sm="24" Md="24" Lg="12" Xl="12" Xxl="8">
+                                <FormItem Label="Tên sản phẩm">
+                                    <Input Placeholder="" @bind-Value="_request.Name" />
+                                </FormItem>
+                            </AntDesign.Col>
+
+                            <AntDesign.Col Xs="24" Sm="24" Md="24" Lg="12" Xl="12" Xxl="8">
+                                <FormItem Label="Mệnh giá">
+                                    <Input Placeholder="" @bind-Value="_request.PhoneNumber" />
+                                </FormItem>
+                            </AntDesign.Col>
+
+                            <AntDesign.Col Xs="24" Sm="24" Md="24" Lg="12" Xl="12" Xxl="8">
+                                <FormItem Label="Hệ thống">
+                                    <Select TItem="EnumsDTO"
+                                            TItemValue="int?"
+                                            DataSource="@_clientDtos"
+                                            @bind-Value="@_request.ClientId"
+                                            ValueName="@nameof(EnumsDTO.Id)"
+                                            LabelName="@nameof(EnumsDTO.Name)"
+                                            Placeholder="Chọn hệ thống"
+                                                AllowClear>
+                                </Select>
+                            </FormItem>
+                        </AntDesign.Col>
+
+                        <AntDesign.Col Xs="24" Sm="24" Md="24" Lg="8" Xl="8" Xxl="6" Style="margin-left: auto!important;text-align: right;">
+                            <FormItem WrapperColSpan="24">
+                                <Space>
+                                    <SpaceItem>
+                                        <Button Type="@ButtonType.Primary" HtmlType="submit">
+                                            <Icon Type="search" Theme="outline" />
+                                            <span>Tra cứu</span>
+                                        </Button>
+                                    </SpaceItem>
+                                </Space>
+                            </FormItem>
+                        </AntDesign.Col>
+                    </Row>
+                </Form>
+
+
+
+                <Divider Style="margin: 16px 0" />
+
+
+                <Table TItem="Product"
+                       PageSize="_productsList.TotalCount"
+                       Size="TableSize.Small"
+                       DataSource="_productsList.ListProduct"
+                       Bordered="true"
+                       ScrollX="1200"
+                       Loading="_isLoading"
+                       HidePagination="_productsList.TotalCount == 0">
+                    <ChildContent>
+                        <PropertyColumn Title="STT" Property="x=>(_request.PageSize * (_request.PageIndex - 1)) + _ids.IndexOf(x!.Id) + 1" Align="ColumnAlign.Left" Width="60">
+                        </PropertyColumn>
+
+                        <PropertyColumn Property="x=>x!.Name" Align="ColumnAlign.Left">
+                            <TitleTemplate>
+                                <div>Tên sản phẩm</div>
+                            </TitleTemplate>
+                        </PropertyColumn>
+
+
+                        <PropertyColumn Property="x=>x.Description" Align="ColumnAlign.Left">
+                            <TitleTemplate>
+                                <div>Mô tả</div>
+                            </TitleTemplate>
+                        </PropertyColumn>
+
+                        <PropertyColumn Property="x=>x.Price" Align="ColumnAlign.Left">
+                            <TitleTemplate>
+                                <div>Giá</div>
+                            </TitleTemplate>
+                        </PropertyColumn>
+
+                        <ActionColumn Align="ColumnAlign.Center" Title="Tác vụ" Width="10%">
+                            <ChildContent>
+                                <Space>
+                                    <SpaceItem>
+                                        <Tooltip Title="Sửa thông tin">
+                                            <Button @onclick="() => OpenUpdateModal(context.Id)" Size="small" Icon="edit"></Button>
+                                        </Tooltip>
+                                    </SpaceItem>
+
+                                    <SpaceItem>
+                                        <Tooltip Title="Gán người dùng vào nhóm">
+                                            <Button @onclick="() => OpenUserGroupModal(context.Id)" Size="small" Icon="team"></Button>
+                                        </Tooltip>
+                                    </SpaceItem>
+
+                                    <SpaceItem>
+                                        <Tooltip Title="Phân quyền nhóm người dùng">
+                                            <Button @onclick="() => OpenUserRoleModal(context.Id)" Size="small" Icon="audit"></Button>
+                                        </Tooltip>
+                                    </SpaceItem>
+
+                                    <SpaceItem>
+                                        <Tooltip Title="Xóa">
+                                            <Button @onclick="() => ConfirmDelete(context.Id, context.Name)" Size="small" Icon="delete" Danger="true"></Button>
+                                        </Tooltip>
+                                    </SpaceItem>
+                                </Space>
+                            </ChildContent>
+                        </ActionColumn>
+                    </ChildContent>
+
+                    <PaginationTemplate>
+                        <Divider />
+                        <Row Justify="space-between" Align="middle">
+                            <div>Hiển thị @(_request.PageSize > _productsList.TotalCount ? _productsList.TotalCount : _request.PageSize) trên tổng số @_productsList.TotalCount bản ghi.</div>
+                            <Pagination ShowSizeChanger="true"
+                                        PageSizeOptions="new int[] { 20, 50 , 100, 200 }"
+                                        OnChange="OnShowSizeChangeAsync"
+                                        @bind-Current="_request.PageIndex"
+                                        @bind-PageSize="_request.PageSize"
+                                        Total="@(_productsList.TotalCount)" />
+                        </Row>
+                    </PaginationTemplate>
+                </Table>
+
+
+            </Body>
+        </Card>
+    </div>
+</div>
+
+@code {
+    public FormRequiredMark ChosenRequiredMark { get; set; } = FormRequiredMark.Required;
+
+    [Inject] private ILogger<NotificationType> _logger { get; set; } = default!;
+    [Inject] private ModalService _modalService { get; set; } = default!;
+    private Products _productsList = new();
+    private List<int> _ids = new();
+    private RequestModel _request = new();
+    private List<EnumsDTO> _clientDtos = new();
+
+
+    private string _title = "Danh sách nhóm người dùng";
+    private bool _isLoading { get; set; } = true;
+    private int _id { get; set; }
+    private bool _createModalVisible = false;
+    private bool _updateModalVisible = false;
+    private bool _changePasswordVisible = false;
+    private bool _userGroupVisible = false;
+    private bool _groupRoleVisible = false;
+
+    private void OpenCreateModal() => _createModalVisible = true;
+
+    private void OpenUpdateModal(int id)
+    {
+        _id = id;
+        _updateModalVisible = true;
+    }
+
+    private void OpenChangePasswordModal(int id)
+    {
+        _id = id;
+        _changePasswordVisible = true;
+    }
+
+    private void OpenUserGroupModal(int id)
+    {
+        _id = id;
+        _userGroupVisible = true;
+    }
+
+    private void OpenUserRoleModal(int id)
+    {
+        _id = id;
+        _groupRoleVisible = true;
+    }
+
+    private async Task ConfirmDelete(int id, string name)
+    {
+        RenderFragment content =@<Paragraph>Bạn có muốn xóa nhóm người dùng: <Text Strong>@name</Text>?</Paragraph>;
+
+        var confirmResult = await _modalService.ConfirmAsync(new ConfirmOptions
+                {
+                    Centered = true,
+                    Content = content,
+                    Title = "Xác nhận",
+                    Icon = @<Icon Type="exclamation-circle" Theme="outline"></Icon>
+        });
+
+        if (confirmResult)
+            await OnDeleteAsync(id);
+    }
+
+    private async Task GetDataAsync()
+    {
+        try
+        {
+            _isLoading = true;
+            StateHasChanged();
+            _productsList.ListProduct = ProductRepository.GetProducts();
+            _productsList.TotalCount = _productsList.ListProduct.Count();
+
+            _ids = _productsList.ListProduct.Select(x => x.Id).ToList();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "GetDataAsync");
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task OnShowSizeChangeAsync(PaginationEventArgs args)
+    {
+        if (_request.PageIndex != args.Page || _request.PageSize != args.PageSize)
+        {
+            _request.PageIndex = args.Page;
+            _request.PageSize = args.PageSize;
+            await GetDataAsync();
+        }
+    }
+
+    private async Task OnDeleteAsync(int id)
+    {
+
+    }
+
+    private async void OnFinish(EditContext editContext)
+    {
+        _request.PageIndex = 1;
+        await GetDataAsync();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetDataAsync();
+        await base.OnInitializedAsync();
+
+        _clientDtos = new List<EnumsDTO>()
+        {
+            new EnumsDTO() {Name = "Admin", Id = 1},
+            new EnumsDTO() {Name = "Cms", Id = 2},
+            new EnumsDTO() {Name = "WebGame", Id = 3},
+        };
+    }
+
+
+
+
+}

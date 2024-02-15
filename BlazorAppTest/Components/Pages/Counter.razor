@@ -1,0 +1,34 @@
+﻿@page "/counter"
+@rendermode InteractiveServer
+
+<Button Type="@ButtonType.Primary" OnClick="@ShowModal">
+    Open Modal
+</Button>
+
+<Modal Visible="@_visible" OnOk="@HandleOk" Title="Hello" OnCancel="@HandleCancel">
+    <ChildContent>
+        This is a modal dialog.
+    </ChildContent>
+    <CloseIcon>
+        <Icon Type="close" Theme="outline" />
+    </CloseIcon>
+</Modal>
+
+@code {
+    private bool _visible;
+
+    private void ShowModal()
+    {
+        _visible = true;
+    }
+
+    private void HandleOk(MouseEventArgs e)
+    {
+        _visible = false;
+    }
+
+    private void HandleCancel(MouseEventArgs e)
+    {
+        _visible = false;
+    }
+}

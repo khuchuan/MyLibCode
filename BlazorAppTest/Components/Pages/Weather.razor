@@ -1,0 +1,38 @@
+﻿@page "/weather"
+
+
+@inject IJSRuntime JSRuntime
+<!-- MyComponent.razor -->
+@inject ModalService _modalService
+
+<div>
+    <!-- Button to trigger the confirmation dialog -->
+    <button id="btnShow" @onclick="ShowConfirmation">Show Confirmation</button>
+</div>
+
+@code {
+    // Method to show the confirmation dialog
+    private async Task ShowConfirmation()
+    {
+        var result = await _modalService.ConfirmAsync(new ConfirmOptions
+            {
+                Title = "Confirmation",
+                Content = "Are you sure you want to proceed?",
+                OkText = "Yes",
+                CancelText = "No"
+            });
+
+        if (result)
+        {
+            // User clicked "Yes", handle the confirmation
+            // You can put your logic here
+            Console.WriteLine("User clicked Yes");
+        }
+        else
+        {
+            // User clicked "No" or closed the dialog, handle accordingly
+            // You can put your logic here
+            Console.WriteLine("User clicked No or closed the dialog");
+        }
+    }
+}

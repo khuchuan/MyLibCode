@@ -1,0 +1,22 @@
+﻿@page "/testmodal"
+@rendermode InteractiveServer
+
+<Button Type="primary" OnClick="@ShowModal">
+    Open Modal
+</Button>
+
+@if (_visible)
+{
+    <LibModal ></LibModal>
+}
+
+@code {
+    bool _visible = false;
+
+    private void ShowModal()
+    {
+        _visible = true;
+        StateHasChanged();        
+    }
+}
+

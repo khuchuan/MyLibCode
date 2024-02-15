@@ -1,0 +1,48 @@
+﻿@page "/counter"
+
+@inject IConfirmService _confirmService
+@inject ModalService _modalService
+
+<Space>
+    <SpaceItem>
+        <Button OnClick="OpenModal" Type="primary">Open a Modal</Button>
+    </SpaceItem>
+</Space>
+
+<button @onclick="OpenModal">Open Modal Demo </button>
+
+@code {
+    string _okText = "OK!";
+    string _cancelText = "Cancel?";
+    string _title = "Override Locale";
+
+    // private async Task OpenModal()
+    // {
+    //     var modalConfig = new ModalOptions
+    //         {
+    //             Title = _title,
+    //             OkText = _okText,
+    //             Centered = true,
+    //             Maximizable = true,
+    //             CancelText = _cancelText,
+    //             Content =@<div>some content</div>
+    //     };
+
+    //     await _modalService.CreateModalAsync(modalConfig);
+    // }
+
+    private void OpenModal()
+    {
+        var modalConfig = new ConfirmOptions
+            {
+                Title = _title,
+                OkText = _okText,
+                Centered = true,
+
+                CancelText = _cancelText,
+                Content = "Ban chac chu"
+            };
+
+        _modalService.Confirm(modalConfig);
+    }
+}
