@@ -39,6 +39,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyAntDesignApp", "MyAntDesi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzDemo", "QuartzDemo\QuartzDemo.csproj", "{544BE254-0E6C-4499-8101-D911B8479E16}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzExample", "QuartzExample\QuartzExample.csproj", "{1BC0AE55-EFB2-4AFD-926E-DC6330FB8B1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,10 @@ Global
 		{544BE254-0E6C-4499-8101-D911B8479E16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{544BE254-0E6C-4499-8101-D911B8479E16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{544BE254-0E6C-4499-8101-D911B8479E16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BC0AE55-EFB2-4AFD-926E-DC6330FB8B1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BC0AE55-EFB2-4AFD-926E-DC6330FB8B1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BC0AE55-EFB2-4AFD-926E-DC6330FB8B1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BC0AE55-EFB2-4AFD-926E-DC6330FB8B1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
