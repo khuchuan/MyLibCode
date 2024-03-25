@@ -1,3 +1,4 @@
+using GrpcClient;
 using GrpcClient.Grpc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
-//builder.Services.AddGrpcService(builder.Configuration.GetOptions<ConfigServiceUrl>("ConfigServiceUrl"));
+builder.Services.AddGrpcService(builder.Configuration.GetOptions<ConfigServiceUrl>("ConfigServiceUrl"));
+
+builder.Services.AddSingleton<GrpcInterceptor>();
+builder.Services.AddScoped<IGreaterClientService, GreaterClientService>();
 
 
 var app = builder.Build();

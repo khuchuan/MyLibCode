@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.HttpLogging;
 using YarpGateway;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,10 +27,17 @@ builder.Services.AddCors(options =>
 // Add reverse proxy configuration (YARP)
 builder.Services.AddReverseProxy(builder.Configuration);
 
+builder.Services.AddSingleton<HttpLoggingInterceptorContext>();
+
+
 var app = builder.Build();
 
 app.UseCors();
-app.UseHttpLogging();
+
+//app.UseHttpLogging();
+
+
+
 app.UseRouting();
 
 app.MapReverseProxy();

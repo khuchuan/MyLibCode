@@ -1,15 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "gtDZBrTz4ETva4mINr5blapX/duwynXE38fQy9nMOjU5M4JzMtyWHtTxXymmo7WroN3S892fd5mHNe8b/neFxA==",
+  "dgSpecHash": "NnbgjPr4cmiUyXxjuBhrmxTMDC2fF17+mASgMyE64TWG7+V3oGhpLn5pW9m8NmIGZBfS0kwSe47mXlov5Av11w==",
   "success": true,
   "projectFilePath": "D:\\CodeTest\\MyLibCode\\DocumentDetail\\DocumentDetail.csproj",
   "expectedPackageFiles": [],
-  "logs": [
-    {
-      "code": "NU1803",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "You are running the 'restore' operation with an 'HTTP' source, 'http://192.168.1.9:43000/nuget'. Non-HTTPS access will be removed in a future version. Consider migrating to an 'HTTPS' source."
-    }
-  ]
+  "logs": []
 }
