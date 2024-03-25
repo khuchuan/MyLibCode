@@ -1,0 +1,236 @@
+{
+  "PlayerServiceReverseProxy": {
+    "Routes": {
+      "playerservice-grpc-route": {
+        "ClusterId": "playerservice-grpc-cluster",
+        "AuthorizationPolicy": "RequireAuthenticatedUserPolicy",
+        "Match": {
+          "Path": "playerservice-grpc/{**catch-all}"
+        },
+        "Transforms": [
+          { "PathPattern": "{**catch-all}" }
+        ]
+      },
+      "playerservice-route": {
+        "ClusterId": "playerservice-cluster",
+        "AuthorizationPolicy": "RequireAuthenticatedUserPolicy",
+        "Match": {
+          "Path": "playerservice/{**catch-all}"
+        },
+        "Transforms": [
+          { "PathPattern": "{**catch-all}" }
+        ]
+      },
+      "playerservice-signalr": {
+        "ClusterId": "playerservice-signalr",
+        "AuthorizationPolicy": "RequireAuthenticatedUserPolicy",
+        "Match": {
+          "Path": "hub/playerservicehub/{**catch-all}"
+        }
+      }
+    },
+    "Clusters": {
+      "playerservice-cluster": {
+        "HealthCheck": {
+          "Active": {
+            "Enabled": "true",
+            "Interval": "00:01:00",
+            "Timeout": "00:00:30",
+            "Policy": "ConsecutiveFailures",
+            "Path": "/healthz"
+          }
+        },
+        "Metadata": {
+          "ConsecutiveFailuresHealthPolicy.Threshold": "3"
+        },
+        "SessionAffinity": {
+          "Enabled": "true", // defaults to 'false'
+          "Policy": "HashCookie", // defaults to 'HashCookie'
+          "FailurePolicy": "Redistribute", // defaults to 'Redistribute'
+          "AffinityKeyName": "PlayerServiceApi",
+          "Cookie": {
+            "Domain": "localhost",
+            "Expiration": "03:00:00",
+            "HttpOnly": true,
+            "IsEssential": true,
+            "MaxAge": "1.00:00:00",
+            //"Path": "",
+            "SameSite": "Lax",
+            "SecurePolicy": "Always"
+          }
+        },
+        "HttpRequest": {
+          "Version": "1.1",
+          "VersionPolicy": "RequestVersionOrHigher"
+        },
+        "Destinations": {
+          "destination1": {
+            "Address": "https://playerservice:6511/"
+          }
+        }
+      },
+      "playerservice-grpc-cluster": {
+        "HealthCheck": {
+          "Active": {
+            "Enabled": "true",
+            "Interval": "00:01:00",
+            "Timeout": "00:00:30",
+            "Policy": "ConsecutiveFailures",
+            "Path": "/healthz"
+          }
+        },
+        "Metadata": {
+          "ConsecutiveFailuresHealthPolicy.Threshold": "3"
+        },
+        "SessionAffinity": {
+          "Enabled": "true", // defaults to 'false'
+          "Policy": "HashCookie", // defaults to 'HashCookie'
+          "FailurePolicy": "Redistribute", // defaults to 'Redistribute'
+          "AffinityKeyName": "PlayerServiceGrpc",
+          "Cookie": {
+            "Domain": "localhost",
+            "Expiration": "03:00:00",
+            "HttpOnly": true,
+            "IsEssential": true,
+            "MaxAge": "1.00:00:00",
+            //"Path": "",
+            "SameSite": "Lax",
+            "SecurePolicy": "Always"
+          }
+        },
+        "HttpClient": { // Configuration of HttpClient instance used to contact destinations
+          "EnableMultipleHttp2Connections": true
+        },
+        "HttpRequest": {
+          "Version": "2",
+          "VersionPolicy": "RequestVersionExact"
+        },
+        "Destinations": {
+          "destination1": {
+            "Address": "https://playerservice:6511/"
+          }
+        }
+      },
+      "playerservice-signalr": {
+        "HttpClient": { // Configuration of HttpClient instance used to contact destinations
+          "DangerousAcceptAnyServerCertificate": true
+        },
+        "SessionAffinity": {
+          "Enabled": "true", // defaults to 'false'
+          "AffinityKeyName": "Yarp.Session.SignalR"
+        },
+        "Destinations": {
+          "destination1": {
+            "Address": "https://playersignalr:6611"
+          }
+        }
+      }
+    }
+  },
+  "PlayerManagingReverseProxy": {
+    "Routes": {
+      "playermanaging-grpc-route": {
+        "ClusterId": "playermanaging-grpc-cluster",
+        "Match": {
+          "Path": "playermanaging-grpc/{**catch-all}"
+        },
+        "Transforms": [
+          { "PathPattern": "{**catch-all}" }
+        ]
+      },
+      "playermanaging-route": {
+        "ClusterId": "playermanaging-cluster",
+        "Match": {
+          "Path": "playermanaging/{**catch-all}"
+        },
+        "Transforms": [
+          { "PathPattern": "{**catch-all}" }
+        ]
+      }
+    },
+    "Clusters": {
+      "playermanaging-cluster": {
+        "HealthCheck": {
+          "Active": {
+            "Enabled": "true",
+            "Interval": "00:01:00",
+            "Timeout": "00:00:30",
+            "Policy": "ConsecutiveFailures",
+            "Path": "/healthz"
+          }
+        },
+        "Metadata": {
+          "ConsecutiveFailuresHealthPolicy.Threshold": "3"
+        },
+        "SessionAffinity": {
+          "Enabled": "true", // defaults to 'false'
+          "Policy": "HashCookie", // defaults to 'HashCookie'
+          "FailurePolicy": "Redistribute", // defaults to 'Redistribute'
+          "AffinityKeyName": "PlayerManagingApi",
+          "Cookie": {
+            "Domain": "localhost",
+            "Expiration": "03:00:00",
+            "HttpOnly": true,
+            "IsEssential": true,
+            "MaxAge": "1.00:00:00",
+            //"Path": "",
+            "SameSite": "Lax",
+            "SecurePolicy": "Always"
+          }
+        },
+        "HttpRequest": {
+          "Version": "1.1",
+          "VersionPolicy": "RequestVersionOrHigher"
+        },
+        "Destinations": {
+          "destination1": {
+            "Address": "https://playermanaging:6501/"
+          }
+        }
+      },
+      "playermanaging-grpc-cluster": {
+        "HealthCheck": {
+          "Active": {
+            "Enabled": "true",
+            "Interval": "00:01:00",
+            "Timeout": "00:00:30",
+            "Policy": "ConsecutiveFailures",
+            "Path": "/healthz"
+          }
+        },
+        "Metadata": {
+          "ConsecutiveFailuresHealthPolicy.Threshold": "3"
+        },
+        "SessionAffinity": {
+          "Enabled": "true", // defaults to 'false'
+          "Policy": "HashCookie", // defaults to 'HashCookie'
+          "FailurePolicy": "Redistribute", // defaults to 'Redistribute'
+          "AffinityKeyName": "PlayerManagingGrpc",
+          "Cookie": {
+            "Domain": "localhost",
+            "Expiration": "03:00:00",
+            "HttpOnly": true,
+            "IsEssential": true,
+            "MaxAge": "1.00:00:00",
+            //"Path": "",
+            "SameSite": "Lax",
+            "SecurePolicy": "Always"
+          }
+        },
+        "HttpClient": { // Configuration of HttpClient instance used to contact destinations
+          "EnableMultipleHttp2Connections": true,
+          "DangerousAcceptAnyServerCertificate": true
+        },
+        "HttpRequest": {
+          "Version": "2",
+          "VersionPolicy": "RequestVersionExact"
+        },
+        "Destinations": {
+          "destination1": {
+            "Address": "https://playermanaging:6501/"
+          }
+        }
+      }
+    }
+  }
+}

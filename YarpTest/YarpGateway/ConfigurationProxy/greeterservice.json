@@ -1,0 +1,33 @@
+﻿{
+
+  "ServerReverseProxy": {
+    "Routes": {
+      "campaignmanaging-grpc-route": {
+        "ClusterId": "server-grpc-cluster",
+        "Match": {
+          "Path": "server-grpc/{**catch-all}"
+        },
+        "Transforms": [
+          { "PathPattern": "{**catch-all}" }
+        ]
+      }
+    },
+    "Clusters": {
+      "server-grpc-cluster": {
+        "HttpRequest": {
+          "Version": "2",
+          "VersionPolicy": "RequestVersionExact"
+        },
+        "Destinations": {
+          "destination1": {
+            "Address": "http://localhost:7601/"
+          },
+          "destination2": {
+            "Address": "http://localhost:7601/"
+          }
+        }
+      }
+    }
+  }
+
+}
