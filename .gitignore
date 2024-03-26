@@ -403,11 +403,5 @@ BlazorApp1/bin/
 /BlazorApp1/bin/
 BlazorApp1/obj/
 /BlazorApp1/obj/
-DocumentDetail/obj/*
-DocumentDetail/bin/*
 DocumentDetail/obj/
 DocumentDetail/bin/
-/DocumentDetail/obj
-/DocumentDetail/bin
-~/DocumentDetail/obj
-~/DocumentDetail/bin
