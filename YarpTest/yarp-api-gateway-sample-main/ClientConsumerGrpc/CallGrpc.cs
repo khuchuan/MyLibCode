@@ -8,15 +8,12 @@ using static GrpcServer.Greeter;
 namespace ClientConsumerGrpc;
 
 public class CallGrpc
-{    
+{
     public void FuncSayHello(string name, string url)
     {
         string msg = string.Empty;
         try
         {
-            //using var channel = GrpcChannel.ForAddress(url);
-            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
-
             var sslOptions = new SslClientAuthenticationOptions
             {
                 // Leave certs unvalidated for debugging
@@ -33,23 +30,25 @@ public class CallGrpc
                 SslOptions = sslOptions
             };
 
-           var  chanelOptions = new GrpcChannelOptions
+            var chanelOptions = new GrpcChannelOptions
             {
-               HttpHandler = configSocketHttpHandler,              
-                Credentials = ChannelCredentials.Insecure
+                HttpHandler = configSocketHttpHandler
+                //, Credentials = ChannelCredentials.Insecure
             };
 
-            using var channel =  GrpcChannel.ForAddress(url, chanelOptions);
+            using var channel = GrpcChannel.ForAddress(url, chanelOptions);
 
             var client = new GreeterClient(channel);
             var request = new HelloRequest { Name = name };
-            var response = client.SayHello(request);
+
+            var response = client.WithHost(url).SayHello(request);
+
             msg = response.Message;
         }
         catch (Exception ex)
         {
             msg = "Error:" + ex.Message;
-        }        
-        Console.WriteLine(msg +"\n" + url);
+        }
+        Console.WriteLine(msg + "\n" + url);
     }
 }
