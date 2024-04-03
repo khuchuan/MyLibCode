@@ -1,0 +1,88 @@
+﻿@page "/student"
+
+@using AntDesign;
+@using BlazorAppTest.DTOs;
+
+<h3>Student</h3>
+
+<div>
+    <p>StudentName: @student.Name</p>
+    <p>Student Age:  @student.Age</p>
+    <p>Student Address: @student.Address</p>
+    <p>
+        <Button Type="primary" OnClick="@(()=>UpdateStudentInfo())">
+            Update
+        </Button>
+    </p>
+</div>
+
+
+<Modal Title="Update student info"
+       @bind-Visible="@_visible" OkText="@myRenderFragment" CancelText="@titleCancelButton" OnOk="() => ConfirmUpdate()"
+       BodyStyle="overflow-y:scroll; height:500px;">
+
+    <p>StudentName: <Input @bind-Value="@name"></Input> </p>
+    <p>Student Age: <Input @bind-Value="@age"></Input> </p>
+    <p>Student Address: <Input @bind-Value="@address"></Input></p>
+
+    <p>Noi dung demo</p>
+    <p>Noi dung demo</p>
+    <p>Noi dung demo</p>
+    <p>Noi dung demo</p>
+    <p>Noi dung demo</p>
+    <p>Noi dung demo</p>
+    <p>Noi dung demo</p>
+    <p>Noi dung demo</p>
+    <p>Noi dung demo</p>
+
+</Modal>
+
+@code {
+    bool _visible = false;
+    StudentDTO student;
+
+    string name = "";
+    int age = 0;
+    string address = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        student = new StudentDTO()
+            {
+                Name = "John",
+                Age = 20,
+                Address = "USA"
+            };
+        await base.OnInitializedAsync();
+    }
+
+    private void UpdateStudentInfo()
+    {
+        name = student.Name;
+        age = student.Age;
+        address = student.Address;
+        _visible = true;
+    }
+
+    RenderFragment myRenderFragment = builder =>
+    {
+        builder.AddContent(1, "Update Info");
+    };
+
+    RenderFragment titleCancelButton = builder =>
+    {
+        // builder.OpenElement(1, "div");
+        // builder.AddContent(1, "Cancel Update");
+        // builder.CloseElement();
+        builder.AddContent(100, "Cancel Update");
+    };
+
+    private void ConfirmUpdate()
+    {
+        student.Name = name;
+        student.Age = age;
+        student.Address = address;
+        _visible = false;
+    }
+
+}
