@@ -1,0 +1,31 @@
+﻿@page "/transdetail"
+
+<h3>Tra cứu lịch sử nạp tiền</h3>
+
+<Tabs @bind-ActiveKey="@activeKey" OnChange="OnTabChange" Animated>
+    <TabPane Tab="Topup B2B" Key="1">
+        <B2BDetail></B2BDetail>
+    </TabPane>
+    <TabPane Tab="Toup VCBETopup" Key="2">
+        Content of Tab Pane 2
+    </TabPane>
+    <TabPane Tab="Topup 6167" Key="3">
+        <Tran6167Detail />
+    </TabPane>
+</Tabs>
+
+
+@code {
+    string activeKey { get; set; } = "1";
+
+    void OnTabChange(string key)
+    {
+        Console.WriteLine($"tab change:{key}");
+    }
+}
+
+
+
+@code {
+
+}
