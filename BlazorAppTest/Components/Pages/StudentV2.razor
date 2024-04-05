@@ -1,0 +1,50 @@
+﻿@page "/studentv2"
+
+@using AntDesign;
+@using BlazorAppTest.DTOs;
+
+<h3>Student</h3>
+
+<div>
+    <p>StudentName: @student.Name</p>
+    <p>Student Age:  @student.Age</p>
+    <p>Student Address: @student.Address</p>
+    <p>
+        <Button Type="primary" OnClick="@(()=>UpdateStudentInfo())">
+            Update
+        </Button>
+    </p>
+</div>
+
+<ModalPopup Show=@_visible OnOk="HandleModalOk" Student="@student" AddStudentChanged="HandleStudentChanged"></ModalPopup>
+
+@code {
+    bool _visible = false;
+    StudentDTO student;
+
+    protected override async Task OnInitializedAsync()
+    {
+        student = new StudentDTO()
+            {
+                Name = "Nguyen Van A",
+                Age = 20,
+                Address = "Ha Noi"
+            };
+        await base.OnInitializedAsync();
+    }
+
+    private void UpdateStudentInfo()
+    {
+        _visible = true;
+    }
+
+    private void HandleModalOk(MouseEventArgs e)
+    {
+        _visible = false;
+    }
+
+    private void HandleStudentChanged(StudentDTO updatedStudent)
+    {
+        student = updatedStudent;
+    }
+}

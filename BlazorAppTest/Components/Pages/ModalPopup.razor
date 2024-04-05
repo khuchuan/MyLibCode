@@ -1,0 +1,66 @@
+﻿@using BlazorAppTest.DTOs;
+
+<Modal Title="Update student info" @bind-Visible=@Show OnOk="HandleOk" OnCancel="HandleCancel" >
+    @* <p>StudentName: <Input @bind-Value=Student.Name></Input> </p> *@
+    <p>StudentName: <Input @bind-Value="@name" ></Input> </p>
+    <p>Student Age: <Input @bind-Value="@age"></Input> </p>
+    <p>Student Address: <Input @bind-Value="@address"></Input></p>
+</Modal>
+
+@code {
+    int age = 0;
+    string name = "";
+    string address = "";
+
+    [Parameter]
+    public bool Show { get; set; }
+
+    [Parameter]
+    public StudentDTO Student { get; set; }
+    
+    [Parameter]
+    public Action<MouseEventArgs> OnOk { get; set; }
+
+    [Parameter]
+    public EventCallback<StudentDTO> AddStudentChanged { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        name = Student.Name;
+        age = Student.Age;
+        address = Student.Address;
+
+        await base.OnInitializedAsync();
+    }
+
+    public async Task HandleOk(MouseEventArgs e)
+    {
+        // Update info and close the modal
+        Show = false;
+        StateHasChanged();
+        OnOk?.Invoke(e); // Invoke the OnOk event in the parent component
+        Student = new StudentDTO(){
+            Name = name,
+            Age = age,
+            Address = address
+        };
+        await AddStudentChanged.InvokeAsync(Student);
+    }
+
+    private void HandleCancel(MouseEventArgs e)
+    {
+        Show = false;
+        StateHasChanged();
+    }
+
+    RenderFragment myRenderFragment = builder =>
+      {
+          builder.AddContent(1, "Update Info");
+      };
+
+    RenderFragment titleCancelButton = builder =>
+    {
+        builder.AddContent(100, "Cancel Update");
+    };
+    
+}
