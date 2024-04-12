@@ -1,0 +1,62 @@
+﻿@page "/"
+
+<div id="titleAdd" style="display: flex; justify-content: space-between; margin:0 0 10px 0px;">
+    <span>Danh sách merchant ...</span>
+    <Button Type="@ButtonType.Primary"><b>+</b> &nbsp;Thêm mới</Button>
+</div>
+
+<div id="tracuu" style="display: flex;">
+    <Search Placeholder="Mã/Tên Merchant" WrapperStyle="width: 200px; margin-right: 10px;" ClassicSearchIcon />
+    
+    @* <Dropdown >
+        <Overlay>
+            @_overlayMenu
+        </Overlay>
+        <Unbound style="margin-right:auto;">
+            <Button RefBack=@context style="width:150px; text-align:right; margin-left:auto;">Trạng thái <Icon Type="down" /></Button>
+        </Unbound>
+    </Dropdown> *@
+
+     <Dropdown Placement="@Placement.BottomLeft">
+         <Overlay>
+             @_overlayMenu
+        </Overlay>
+        <ChildContent style="">
+            @* <Button>BottomLeft</Button> *@
+            <Button style="width:150px; text-align:right; margin-left:80%;">Trạng thái <Icon Type="down" /></Button>
+        </ChildContent>
+    </Dropdown>
+
+    <Button Type="@ButtonType.Primary" style="width: 112px;display: flex; justify-content: space-between; margin-left: auto;"><Icon Type="search" Theme="outline" />&nbsp;Tra cứu</Button>
+</div>
+
+<div id="list"></div>
+
+
+@code {
+    private string txtValue { get; set; }
+
+    private RenderFragment _overlayMenu =@<Menu>
+        <MenuItem >            
+            1st menu item            
+        </MenuItem>
+        <MenuItem>
+            <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">
+                2nd menu item
+            </a>
+        </MenuItem>
+        <MenuItem>
+            <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
+                3rd menu item
+            </a>
+        </MenuItem>
+    </Menu>;
+
+    private RenderFragment ButtonsRender(RenderFragment leftButton, RenderFragment rightButton)
+    {
+        return @<Template>
+        <span>@leftButton</span>
+        @rightButton
+    </Template>;
+    }
+}
