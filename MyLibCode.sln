@@ -48,7 +48,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YarpGateway", "YarpTest\Yar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcClient", "YarpTest\GrpcClient\GrpcClient.csproj", "{A45EE573-C621-4003-92D1-A4F66AA32B30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorRealTest", "BlazorRealTest\BlazorRealTest.csproj", "{43FC8034-ED3C-44D8-94C9-217134218823}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorRealTest", "BlazorRealTest\BlazorRealTest.csproj", "{43FC8034-ED3C-44D8-94C9-217134218823}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

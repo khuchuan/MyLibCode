@@ -1,4 +1,5 @@
 using BlazorRealTest.Components;
+using BlazorRealTest.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,8 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddAntDesign();
+
+builder.Services.AddTransient<IMerchantRepository, MerchantRepository>();
 
 var app = builder.Build();
 
