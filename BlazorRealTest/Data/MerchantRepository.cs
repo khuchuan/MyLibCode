@@ -9,7 +9,7 @@ public class MerchantRepository : IMerchantRepository
 
     public MerchantRepository()
     {
-        for (int i = 0; i < 64; i++)
+        for (int i = 0; i < 15; i++)
         {
             listMerchant.Add(new MerchantInfo
             {
@@ -20,16 +20,9 @@ public class MerchantRepository : IMerchantRepository
         }
     }
 
-    public List<MerchantInfo> GetMerchants()
-    {
-
-
-        return listMerchant;
-    }
-
     public async Task<MerchantDTO> GetMerchantsAsync(short status, int page = 1, int pageSize = 10)
     {
-        var list = listMerchant.FindAll(x => (x.Status <= 0 || x.Status == status));
+        var list = listMerchant.FindAll(x => (status < 0 || x.Status == status));
 
         var result = new MerchantDTO
         {
@@ -40,15 +33,21 @@ public class MerchantRepository : IMerchantRepository
         return result;
     }
 
-
+    public int AddMerchant(MerchantInfo merchant)
+    {
+        if (listMerchant == null)
+        {
+            listMerchant = new List<MerchantInfo>();
+        }
+        listMerchant.Add(merchant);
+        return listMerchant.Count;
+    }
 }
 
 public interface IMerchantRepository
 {
-    public List<MerchantInfo> GetMerchants();
-
     public Task<MerchantDTO> GetMerchantsAsync(short status, int page, int pageSize);
 
+    public int AddMerchant(MerchantInfo merchant);
 }
-
 

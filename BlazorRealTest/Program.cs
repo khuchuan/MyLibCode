@@ -9,7 +9,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddAntDesign();
 
-builder.Services.AddTransient<IMerchantRepository, MerchantRepository>();
+builder.Services.AddSingleton<IMerchantRepository, MerchantRepository>();
 
 var app = builder.Build();
 

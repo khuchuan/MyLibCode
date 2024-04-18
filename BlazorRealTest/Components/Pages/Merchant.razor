@@ -10,7 +10,7 @@
             <Icon Type="shop" Theme="outline" /> @_title
         </TitleTemplate>
         <Extra>
-            <Button Type="@ButtonType.Primary" OnClick="() => AddUpdateProduct(0, 0, 0)" Icon="plus">
+            <Button Type="@ButtonType.Primary" OnClick="() => AddMerchant()" Icon="plus">
                 Thêm mới
             </Button>
         </Extra>
@@ -30,20 +30,22 @@
                 <Row Gutter="16">
                     <AntDesign.Col Xs="24" Sm="24" Md="24" Lg="12" Xl="8" Xxl="6">
                         <FormItem>
-                            <Search Placeholder="Mã/Tên Merchant" ClassicSearchIcon />
-                         </FormItem>
-                     </AntDesign.Col>
+                            @* <Search Placeholder="Mã/Tên Merchant" ClassicSearchIcon /> *@
+                            <Input Placeholder="Mã/Tên Merchant" @bind-Value="@_searchValue"></Input>
 
-                     <AntDesign.Col Xs="24" Sm="24" Md="24" Lg="12" Xl="8" Xxl="6">
-                         <FormItem>
-                             <Select TItem="EnumsDTO"
-                                     TItemValue="int"
-                                     DataSource="@_listStatus"
-                                     @bind-Value="@_request.Status"
-                                     LabelName="@(nameof(EnumsDTO.Name))"
-                                     ValueName="@nameof(EnumsDTO.Id)"
-                                     Placeholder="Chọn trạng thái"
-                                     DefaultActiveFirstOption="false"
+                        </FormItem>
+                    </AntDesign.Col>
+
+                    <AntDesign.Col Xs="24" Sm="24" Md="24" Lg="12" Xl="8" Xxl="6">
+                        <FormItem>
+                            <Select TItem="EnumsDTO"
+                                    TItemValue="short"
+                                    DataSource="@_listStatus"
+                                    @bind-Value="@_request.Status"
+                                    LabelName="@(nameof(EnumsDTO.Name))"
+                                    ValueName="@nameof(EnumsDTO.Id)"
+                                    Placeholder="Chọn trạng thái"
+                                    DefaultActiveFirstOption="false"
                                         AllowClear
                                         EnableSearch>
                             </Select>
@@ -52,7 +54,7 @@
 
                     <AntDesign.Col Xs="24" Sm="24" Md="24" Lg="8" Xl="8" Xxl="6" Style="margin-left: auto!important;text-align: right;">
                         <FormItem>
-                            <Button Type="@ButtonType.Primary" HtmlType="submit">
+                            <Button Type="@ButtonType.Primary" HtmlType="submit" OnClick="() => OnSearch() ">
                                 <Icon Type="search" Theme="outline" />
                                 <span>Tra cứu</span>
                             </Button>
@@ -86,7 +88,7 @@
                     </Column>
                     <ActionColumn Title="Thao tác">
                         <ChildContent>
-                            <Space>                                
+                            <Space>
                                 <SpaceItem>
                                     <Tooltip Title="Sửa">
                                         <Button Size="small" OnClick="() => {}" Icon="edit"></Button>
@@ -102,7 +104,7 @@
                     <Row Justify="space-between" Align="middle">
                         <div>Hiển thị @(_request.PageSize > _merchantDTO.TotalCount ? _merchantDTO.TotalCount : _request.PageSize) trên tổng số @_merchantDTO.TotalCount bản ghi.</div>
                         <Pagination ShowSizeChanger="true"
-                                    PageSizeOptions="new int[] {5, 10, 15}"
+                                    PageSizeOptions="new int[] { 10, 20, 30}"
                                     OnChange="OnShowSizeChangeAsync"
                                     @bind-Current="_request.PageIndex"
                                     @bind-PageSize="_request.PageSize"
@@ -120,7 +122,11 @@
     [Inject]
     private IMerchantRepository merchantRepository { get; set; } = default;
 
+    [Inject]
+    private NavigationManager _navigationManager { get; set; }
+
     private string _title = "Danh sách merchant";
+    private string _searchValue = "";
 
     private List<MerchantInfo> listMerchant = new List<MerchantInfo>();
     private List<EnumsDTO> _listStatus = new List<EnumsDTO>();
@@ -132,20 +138,19 @@
     public class MerchantRequestModel
     {
         public int PageIndex { get; set; } = 1;
-        public int PageSize { get; set; } = 20;
-        public int Status { set; get; }
+        public int PageSize { get; set; } = 10;
+        public short Status { set; get; }
         public string? MerchantNameOrCode { set; get; }
     }
 
     protected override async Task OnInitializedAsync()
     {
-        // _list_Services = await _service.GetListService();
-        // _list_Providers = await _service.GetListProvider();
-        GetDataAsync();
+        GetDataAsync(_request.Status);
 
         _listStatus = new List<EnumsDTO>{
+            new EnumsDTO{Id = -1, Name = "Tất cả"},
             new EnumsDTO{Id = 1, Name = "Hoạt động"},
-            new EnumsDTO{Id = 2, Name = "Không hoạt động"}
+            new EnumsDTO{Id = 0, Name = "Không hoạt động"}
         };
     }
 
@@ -160,22 +165,31 @@
         //_navigationManager.NavigateTo($"/merchant/add-update/{id}/{serviceID}/{providerID}");
     }
 
+    private void AddMerchant()
+    {
+        Console.WriteLine("Update merchant");
+        _navigationManager.NavigateTo("/merchantupdate");
+    }
+
     private async Task OnShowSizeChangeAsync(PaginationEventArgs args)
     {
         if (_request.PageIndex != args.Page || _request.PageSize != args.PageSize)
         {
             _request.PageIndex = args.Page;
             _request.PageSize = args.PageSize;
-            await GetDataAsync();
+            await GetDataAsync(_request.Status);
         }
     }
 
-    private async Task GetDataAsync()
+    private void OnSearch()
     {
-        _merchantDTO = await merchantRepository.GetMerchantsAsync(1, _request.PageIndex, _request.PageSize);
-        listMerchant = _merchantDTO.Data;
+        GetDataAsync(_request.Status);
     }
 
-
+    private async Task GetDataAsync(short status)
+    {
+        _merchantDTO = await merchantRepository.GetMerchantsAsync(status, _request.PageIndex, _request.PageSize);
+        listMerchant = _merchantDTO.Data;
+    }
 
 }

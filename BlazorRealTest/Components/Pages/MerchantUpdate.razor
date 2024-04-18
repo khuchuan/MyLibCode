@@ -1,0 +1,63 @@
+﻿@page "/merchantupdate"
+@using BlazorRealTest.Entity
+
+<Card>
+    <Row Gutter="3" Style="margin-bottom:15px;">
+        <Col Xs="24" Sm="1" Md="5" Lg="6" Xl="3" Xxl="2">
+        Mã Merchant:         </Col>
+        <Col Xs="24" Sm="2" Md="19" Lg="12" Xl="6" Xxl="8">
+        <Input @bind-Value=@txtMerchantName></Input>         </Col>
+    </Row>
+
+    <Row Gutter="3" Style="margin-bottom:15px;">
+        <Col Xs="8" Sm="1" Md="6" Lg="2" Xl="3" Xxl="2">
+        Tên Merchant:         </Col>
+        <Col Xs="16" Sm="2" Md="18" Lg="8" Xl="6" Xxl="8">
+        <Input @bind-Value=@txtMerchantCode></Input>         </Col>
+    </Row>
+
+    <Row Gutter="3">
+        <Col Xs="8" Sm="1" Md="6" Lg="2" Xl="3" Xxl="2">        </Col>
+        <Col Xs="16" Sm="2" Md="18" Lg="8" Xl="6" Xxl="8">
+        <Button Style="width:90px;">Hủy</Button>
+        <Button Style="width:90px;" Type="@ButtonType.Primary" OnClick="() => SaveMerchant()">
+            Lưu</Button>        </Col>
+    </Row>
+
+</Card>
+
+@code {
+    [Inject] 
+    private IMerchantRepository merchantRepository { get; set; } = default;
+
+    [Inject] 
+    private NavigationManager _navigationManager { get; set; }
+
+    private string txtMerchantName = "";
+    private string txtMerchantCode = "";
+
+    private void SaveMerchant()
+    {
+        // Save Merchant
+        MerchantInfo merchantInfo = new MerchantInfo()
+            {
+                MerchantCode = txtMerchantCode,
+                MerchantName = txtMerchantName,
+                Status = 1
+            };
+
+        var result = merchantRepository.AddMerchant(merchantInfo);
+        if (result > 0 )
+        {
+            // Success
+            Console.WriteLine("Success");
+            _navigationManager.NavigateTo($"/");
+        }
+        else
+        {
+            Console.WriteLine("That bai roi");
+        }
+    }
+
+}
+
