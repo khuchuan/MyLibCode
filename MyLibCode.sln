@@ -66,6 +66,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PollyServer", "TestPolly\Po
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PollyClientApi", "TestPolly\PollyClientApi\PollyClientApi.csproj", "{BB9481A2-D75D-43D4-AA9C-04879B28E9D6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEntityFw", "TestEntityFw\TestEntityFw.csproj", "{E214636F-1515-46A0-832F-5FF1890DDA5F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
