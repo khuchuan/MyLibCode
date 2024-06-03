@@ -1,0 +1,6 @@
+@PolyServer_HostAddress = http://localhost:5213
+
+GET {{PolyServer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
