@@ -28,7 +28,202 @@ namespace TestExportExcell2
                 Console.WriteLine($"Project Directory: {projectDirectory}");
 
                 string inputFilePath = $"{projectDirectory}\\BCMau.xlsx";
-                string outputFilePath = $"{projectDirectory}\\FileExports\\Report_{DateTime.Now.ToString("yyMMHHmm")}.xlsx";
+                string outputFilePath = $"{projectDirectory}\\FileExports\\Report_{DateTime.Now.ToString("yyMM")}.xlsx"; // yyMMHHmm
+
+                // Create a new workbook
+                var workbook = new XLWorkbook();
+
+                // Check exit file
+                if (File.Exists(outputFilePath))
+                {
+                    ExportBCLToExitFile(startRow);
+                    return;
+                }
+                else
+                    workbook = new XLWorkbook(inputFilePath);
+
+                var worksheet = workbook.Worksheet(1); // Assuming data is in the first worksheet
+
+
+                // Set values and format cells manually           
+                // Row 1
+                worksheet.Cell(1, 2).Value = "VIETTEL";
+                worksheet.Range(1, 2, 1, 14).Merge().Style.Fill.BackgroundColor = XLColor.LightGreen;
+                worksheet.Cell(1, 2).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                worksheet.Cell(1, 15).Value = "MOBI";
+                worksheet.Range(1, 15, 1, 26).Merge().Style.Fill.BackgroundColor = XLColor.Pink;
+                worksheet.Cell(1, 15).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                worksheet.Cell(1, 27).Value = "VINAPHONE";
+                worksheet.Range(1, 27, 1, 36).Merge().Style.Fill.BackgroundColor = XLColor.LightGreen;
+                worksheet.Cell(1, 27).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                worksheet.Cell(1, 37).Value = "MẠNG KHÁC";
+                worksheet.Range(1, 37, 1, 41).Merge().Style.Fill.BackgroundColor = XLColor.Pink;
+                worksheet.Cell(1, 37).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                // Row 2
+                List<string> listCusTopup = new List<string> { "MSB", "OCB", "NAB", "Nhất Trần", "GAPIT", "VPAY", "MB" }; // DL bind vao row3
+
+                worksheet.Cell(2, 2).Value = "KHÁCH HÀNG - TOPUP";
+                //worksheet.Range(2, 2, 2, 8).Merge();
+                worksheet.Range(2, 2, 2, listCusTopup.Count + 1).Merge();
+                // Set width of cell
+
+                int stepNext = 7; // Se lay tu BD khi co DL
+
+                worksheet.Cell(2, 2 + stepNext).Value = "VTL topup";
+                worksheet.Range(2, 2 + stepNext, 3, 2 + stepNext).Merge().Style.Fill.BackgroundColor = XLColor.AshGrey;
+                //worksheet.Cell(2, 2).Style.Fill.BackgroundColor = XLColor.AshGrey;
+
+                int postionCallNCCTopup = 2 + stepNext + 1;
+                worksheet.Cell(2, postionCallNCCTopup).Value = "NCC - TOPUP";
+                worksheet.Range(2, postionCallNCCTopup, 2, postionCallNCCTopup + 1).Merge();
+
+                int postionCellKHBill = postionCallNCCTopup + 2;
+                worksheet.Cell(2, postionCellKHBill).Value = "KHÁCH HÀNG - BILL";
+                int numberCusBill = 2; // Se lay tu BD khi co DL
+                worksheet.Range(2, postionCellKHBill, 2, postionCellKHBill + numberCusBill - 1).Merge();
+
+                int postionCellNCCBill = postionCellKHBill + numberCusBill;
+                worksheet.Cell(2, postionCellNCCBill).Value = "VTL paybill";
+                worksheet.Range(2, postionCellNCCBill, 3, postionCellNCCBill).Merge().Style.Fill.BackgroundColor = XLColor.AshGrey;
+
+                // Row 3
+                worksheet.Cell(3, 1).Value = "Ngày";
+                int numberDayInMonth = 31;
+                for (int i = 1; i <= numberDayInMonth; i++)
+                {
+                    worksheet.Cell(i + 3, 1).Value = i;
+                    worksheet.Cell(i + 3, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                }
+
+                // Danh border table                
+                worksheet.Range(1, 1, numberDayInMonth + 3, 41).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                worksheet.Range(1, 1, numberDayInMonth + 3, 41).Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+
+                // KH - TOPUP
+                for (int i = 1; i <= listCusTopup.Count; i++)
+                {
+                    worksheet.Cell(3, 1 + i).Value = listCusTopup[i - 1];
+                }
+
+                //postionCellKHBill               
+                List<string> listProviderTopupViettel = new List<string> { "VDS", "VTT" };
+                int numsProvidersTopupViettel = listProviderTopupViettel.Count();
+                for (int i = 0; i < listProviderTopupViettel.Count(); i++)
+                {
+                    worksheet.Cell(3, postionCallNCCTopup + i).Value = listProviderTopupViettel[i];
+                }
+
+                List<string> listProviderBillViettel = new List<string> { "MSB BILL", "MB BILL" };
+                for (int i = 0; i < listProviderTopupViettel.Count(); i++)
+                {
+                    worksheet.Cell(3, postionCellKHBill + i).Value = listProviderBillViettel[i];
+                }
+
+                // Set style font bold for row 1 to 3
+                worksheet.Range(1, 1, 3, 41).Style.Font.Bold = true;
+                worksheet.Range(1, 1, 3, 41).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                worksheet.Range(1, 1, 3, 41).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+
+                // Row 4 (Example Data)            
+                worksheet.Cell(startRow, 2).Value = 200060;
+                worksheet.Cell(startRow, 3).Value = 3000220;
+                worksheet.Cell(startRow, 4).Value = 400020231;
+                worksheet.Cell(startRow, 5).Value = 5020060;
+                worksheet.Cell(startRow, 6).Value = 6030220;
+                worksheet.Cell(startRow, 7).Value = 74230231;
+                worksheet.Cell(startRow, 8).Value = 80462231;
+
+                // Adjust column widths
+                //worksheet.Columns().AdjustToContents();
+
+                // How to set width of column
+                int withCellDefault = 10;
+                for (int i = 2; i <= 41; i++) // Bo cot 1 (ngay)
+                {
+                    worksheet.Column(i).Width = withCellDefault;
+                }
+
+                // Sum total    
+                for (int i = 2; i <= 41; i++)
+                {
+                    worksheet.Cell(35, i).FormulaA1 = $"SUM({worksheet.Cell(4, i).Address}:{worksheet.Cell(34, i).Address})";
+                }
+
+                // Save the modified Excel file
+                workbook.SaveAs(outputFilePath);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "\n" + ex.StackTrace);
+            }
+        }
+
+
+
+        public void ExportBCLToExitFile(int startRow)
+        {
+            try
+            {
+                // Get the current directory
+                string currentDirectory = Directory.GetCurrentDirectory();
+
+                // Navigate to the project directory (assuming the app runs from bin/Debug/net6.0)
+                string projectDirectory = Directory.GetParent(currentDirectory).Parent.Parent.FullName;
+
+
+                string inputFilePath = $"{projectDirectory}\\BCMau.xlsx";
+                string outputFilePath = $"{projectDirectory}\\FileExports\\Report_{DateTime.Now.ToString("yyMM")}.xlsx"; // yyMMHHmm
+
+                // Create a new workbook
+                var workbook = new XLWorkbook();
+
+                // Check exit file
+                if (!File.Exists(outputFilePath))
+                {
+                    return;
+                }
+
+                workbook = new XLWorkbook(outputFilePath);
+                var worksheet = workbook.Worksheet(1); // Assuming data is in the first worksheet
+
+                // Add data to row 
+                worksheet.Cell(startRow, 2).Value = 200060 + startRow * 100;
+                worksheet.Cell(startRow, 3).Value = 3000220 + startRow * 100;
+                worksheet.Cell(startRow, 4).Value = 400020231 + startRow * 100;
+                worksheet.Cell(startRow, 5).Value = 5020060 + startRow * 100;
+                worksheet.Cell(startRow, 6).Value = 6030220 + startRow * 100;
+                worksheet.Cell(startRow, 7).Value = 74230231 + startRow * 100;
+                worksheet.Cell(startRow, 8).Value = 80462231 + startRow * 100;
+
+                // Save the modified Excel file
+                workbook.SaveAs(outputFilePath);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "\n" + ex.StackTrace);
+            }
+        }
+
+
+        public void ExportBC_V3(int startRow)
+        {
+            try
+            {
+                // Get the current directory
+                string currentDirectory = Directory.GetCurrentDirectory();
+
+                // Navigate to the project directory (assuming the app runs from bin/Debug/net6.0)
+                string projectDirectory = Directory.GetParent(currentDirectory).Parent.Parent.FullName;
+
+                Console.WriteLine($"Current Directory: {currentDirectory}");
+                Console.WriteLine($"Project Directory: {projectDirectory}");
+
+                string inputFilePath = $"{projectDirectory}\\BCMau.xlsx";
+                string outputFilePath = $"{projectDirectory}\\FileExports\\Report_{DateTime.Now.ToString("yyMM")}.xlsx"; // yyMMHHmm
 
                 // Create a new workbook
                 using var workbook = new XLWorkbook();
@@ -366,8 +561,6 @@ namespace TestExportExcell2
             }
 
         }
-
-
 
     }
 }
