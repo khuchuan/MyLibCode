@@ -81,22 +81,22 @@ namespace TestExportExcell2
                 //worksheet.Cell(2, postionCellNCCBill).Style.Fill.BackgroundColor = XLColor.AshGrey;
                 worksheet.Range(2, postionCellNCCBill, 3, postionCellNCCBill).Merge().Style.Fill.BackgroundColor = XLColor.AshGrey;
 
-
-
                 // Row 3
                 worksheet.Cell(3, 1).Value = "Ngày";
                 int numberDayInMonth = 31;
                 for (int i = 1; i <= numberDayInMonth; i++)
                 {
                     worksheet.Cell(i + 3, 1).Value = i;
+                    worksheet.Cell(i + 3, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                 }
 
                 // Danh border table
-                worksheet.Range(1, 1, numberDayInMonth + 3, 41).Style.Border.TopBorder = XLBorderStyleValues.Thin;
-                worksheet.Range(1, 1, numberDayInMonth + 3, 41).Style.Border.BottomBorder = XLBorderStyleValues.Thin;
-                worksheet.Range(1, 1, numberDayInMonth + 3, 41).Style.Border.LeftBorder = XLBorderStyleValues.Thin;
-                worksheet.Range(1, 1, numberDayInMonth + 3, 41).Style.Border.RightBorder = XLBorderStyleValues.Thin;
-
+                //worksheet.Range(1, 1, numberDayInMonth + 3, 41).Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                //worksheet.Range(1, 1, numberDayInMonth + 3, 41).Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                //worksheet.Range(1, 1, numberDayInMonth + 3, 41).Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                //worksheet.Range(1, 1, numberDayInMonth + 3, 41).Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                worksheet.Range(1, 1, numberDayInMonth + 3, 41).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                worksheet.Range(1, 1, numberDayInMonth + 3, 41).Style.Border.InsideBorder = XLBorderStyleValues.Thin;
 
                 // KH - TOPUP
                 for (int i = 1; i <= listCusTopup.Count; i++)
@@ -121,6 +121,7 @@ namespace TestExportExcell2
                 // Set style font bold for row 1 to 3
                 worksheet.Range(1, 1, 3, 41).Style.Font.Bold = true;
                 worksheet.Range(1, 1, 3, 41).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                worksheet.Range(1, 1, 3, 41).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
 
                 // Row 4 (Example Data)            
                 worksheet.Cell(4, 2).Value = 200060;
@@ -144,7 +145,7 @@ namespace TestExportExcell2
 
                 // How to set width of column
                 int withCellDefault = 10;
-                for (int i = 1; i <= 41; i++)
+                for (int i = 2; i <= 41; i++) // Bo cot 1 (ngay)
                 {
                     worksheet.Column(i).Width = withCellDefault;
                 }
