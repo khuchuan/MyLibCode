@@ -63,7 +63,7 @@ namespace TestExportExcell2
 
         }
 
-    
+
         public void ExportBC(int startRow)
         {
             try
@@ -78,29 +78,56 @@ namespace TestExportExcell2
                 Console.WriteLine($"Project Directory: {projectDirectory}");
 
                 string inputFilePath = $"{projectDirectory}\\BCMau.xlsx";
-                string outputFilePath = $"{projectDirectory}\\FileExports\\Report_{DateTime.Now.ToString("yyMM")}.xlsx";
+                string outputFilePath = $"{projectDirectory}\\FileExports\\Report_{DateTime.Now.ToString("yyMMHHmm")}.xlsx";
 
 
 
-                
+
 
                 // Create a new workbook
                 using var workbook = new XLWorkbook();
                 var worksheet = workbook.Worksheets.Add("Sheet1");
 
-                // Set values and format cells manually
+                // Set values and format cells manually           
                 // Row 1
-                worksheet.Cell(1, 1).Value = "MOBI";
-                worksheet.Cell(1, 2).Value = "VINAPHONE";
-                worksheet.Cell(1, 3).Value = "MẠNG KHÁC";
-                worksheet.Range(1, 1, 1, 3).Merge().Style.Fill.BackgroundColor = XLColor.LightBlue;
-                worksheet.Cell(1, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                worksheet.Cell(1, 2).Value = "VIETTEL";
+                worksheet.Range(1, 2, 1, 14).Merge().Style.Fill.BackgroundColor = XLColor.LightGreen;
+                worksheet.Cell(1, 2).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                worksheet.Cell(1, 15).Value = "MOBI";
+                worksheet.Range(1, 15, 1, 26).Merge().Style.Fill.BackgroundColor = XLColor.Pink;
+                worksheet.Cell(1, 15).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                worksheet.Cell(1, 27).Value = "VINAPHONE";
+                worksheet.Range(1, 27, 1, 36).Merge().Style.Fill.BackgroundColor = XLColor.LightGreen;
+                worksheet.Cell(1, 27).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                worksheet.Cell(1, 37).Value = "MẠNG KHÁC";
+                worksheet.Range(1, 37, 1, 41).Merge().Style.Fill.BackgroundColor = XLColor.Pink;
+                worksheet.Cell(1, 37).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
                 // Row 2
-                worksheet.Cell(2, 1).Value = "";
                 worksheet.Cell(2, 2).Value = "KHÁCH HÀNG - TOPUP";
-                worksheet.Cell(2, 3).Value = "Subheader3";
-                worksheet.Range(2, 1, 2, 3).Merge().Style.Fill.BackgroundColor = XLColor.LightGreen;
+                worksheet.Range(2, 2, 2, 8).Merge();
+                int stepNext = 7; // Se lay tu BD khi co DL
+
+                worksheet.Cell(2, 2 + stepNext).Value = "VTL topup";
+                worksheet.Cell(2, 2).Style.Fill.BackgroundColor = XLColor.AshGrey;
+
+                int postionCallNCCTopup = 2 + stepNext + 1;
+                worksheet.Cell(2, postionCallNCCTopup ).Value = "NCC - TOPUP";
+                worksheet.Range(2, postionCallNCCTopup, 2, postionCallNCCTopup + 1).Merge();
+
+                int postionCellKHBill = postionCallNCCTopup + 2;
+                worksheet.Cell(2, postionCellKHBill).Value = "KHÁCH HÀNG - BILL";
+                int numberCusBill = 2; // Se lay tu BD khi co DL
+                worksheet.Range(2, postionCellKHBill, 2, postionCellKHBill + numberCusBill - 1).Merge();
+
+                int postionCellNCCBill = postionCellKHBill + numberCusBill ;
+                worksheet.Cell(2, postionCellNCCBill).Value = "VTL paybill";
+                worksheet.Cell(2, postionCellNCCBill).Style.Fill.BackgroundColor = XLColor.AshGrey;
+
+
                 worksheet.Cell(2, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
                 // Row 3
@@ -138,7 +165,7 @@ namespace TestExportExcell2
                 Console.WriteLine(ex.Message + "\n" + ex.StackTrace);
             }
 
-        }   
-    
+        }
+
     }
 }
