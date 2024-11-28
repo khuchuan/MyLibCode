@@ -141,7 +141,7 @@ namespace TestExportExcell2
                 //worksheet.Columns().AdjustToContents();
 
                 // How to set width of column
-                int withCellDefault = 10;
+                int withCellDefault = 30;
                 for (int i = 2; i <= 41; i++) // Bo cot 1 (ngay)
                 {
                     worksheet.Column(i).Width = withCellDefault;
