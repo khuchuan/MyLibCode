@@ -1,0 +1,6 @@
+@IntegrationKeyCloak_HostAddress = http://localhost:5259
+
+GET {{IntegrationKeyCloak_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
