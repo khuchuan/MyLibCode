@@ -70,6 +70,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PollyServer", "TestPolly\Po
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestExportExcell2", "TestExportExcell2\TestExportExcell2.csproj", "{4ACD86D7-AE94-4245-AF84-BACA30127C6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcServiceTest", "GrpcServiceTest\GrpcServiceTest.csproj", "{14370853-D013-411F-90F2-017CEF7F7A05}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAISupport", "TestAISupport\TestAISupport.csproj", "{41AE7CC5-7B14-4B88-B35E-1DD09F2127D6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsService1", "WindowsService1\WindowsService1.csproj", "{D4467E07-4B91-4D7C-A85A-B2D8BBAF5BEA}"
@@ -196,22 +198,6 @@ Global
 		{4ACD86D7-AE94-4245-AF84-BACA30127C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4ACD86D7-AE94-4245-AF84-BACA30127C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4ACD86D7-AE94-4245-AF84-BACA30127C6F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{41AE7CC5-7B14-4B88-B35E-1DD09F2127D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{41AE7CC5-7B14-4B88-B35E-1DD09F2127D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{41AE7CC5-7B14-4B88-B35E-1DD09F2127D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{41AE7CC5-7B14-4B88-B35E-1DD09F2127D6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D4467E07-4B91-4D7C-A85A-B2D8BBAF5BEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D4467E07-4B91-4D7C-A85A-B2D8BBAF5BEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D4467E07-4B91-4D7C-A85A-B2D8BBAF5BEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D4467E07-4B91-4D7C-A85A-B2D8BBAF5BEA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2B5ECB50-BC6E-44C3-8417-930921ED4FF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2B5ECB50-BC6E-44C3-8417-930921ED4FF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2B5ECB50-BC6E-44C3-8417-930921ED4FF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2B5ECB50-BC6E-44C3-8417-930921ED4FF2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B7E5A6C-865A-49FE-8774-363261B3355C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B7E5A6C-865A-49FE-8774-363261B3355C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B7E5A6C-865A-49FE-8774-363261B3355C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B7E5A6C-865A-49FE-8774-363261B3355C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
